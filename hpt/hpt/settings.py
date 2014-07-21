@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = (
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,6 +52,13 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+)
+
+# Custom context processors to add template variables
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
+TEMPLATE_CONTEXT_PROCESSORS = TCP + (
+    # This is for grappelli
+    'django.core.context_processors.request',
 )
 
 ROOT_URLCONF = 'hpt.urls'
@@ -89,6 +97,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'staticfiles'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 ################
 # Celery Stuff #
@@ -96,7 +108,7 @@ STATIC_URL = '/static/'
 # http://celery.readthedocs.org/en/latest/configuration.html
 
 # Broker settings.
-BROKER_URL = 'amqp://admin:admin@hpt.local:5672//'
+BROKER_URL = 'amqp://admin:admin@localhost:5672//'
 
 # Use SSL to connect to the broker. Off by default. This may not be supported by
 # all transports.
@@ -228,3 +240,7 @@ CELERY_ROUTES = {
     },
 }
 """
+
+# Look & Feel
+#GRAPPELLI_ADMIN_TITLE = 'Hollowpoint'
+GRAPPELLI_ADMIN_TITLE = '<img src="/static/img/logo.png" alt="Hollowpoint" width="200">'
