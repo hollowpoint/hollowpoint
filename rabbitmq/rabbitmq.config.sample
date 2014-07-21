@@ -1,0 +1,40 @@
+% RabbitMQ config is Erlang. Erlang comments begin with "%"
+% See: https://www.rabbitmq.com/ssl.html#enabling-ssl
+% Change [HOSTNAME] to the hostname of the server
+[
+    % Global settings
+    {rabbit, [
+        % Allow "guest" to login. Leave this disabled and create an admin user instead!
+        % See: http://www.rabbitmq.com/man/rabbitmqctl.1.man.html#User management
+        % {loopback_users, []},
+
+        % Disable TCP listeners (default port: 5672)
+        {tcp_listeners, []},
+
+        % Enable SSL on default port (5672)
+        {ssl_listeners, [5672]},
+        {ssl_options, [
+            {cacertfile, "/etc/rabbitmq/ssl/ca/cacert.pem"},
+            {certfile, "/etc/rabbitmq/ssl/server/[HOSTNAME].cert.pem"},
+            {keyfile, "/etc/rabbitmq/ssl/server/[HOSTNAME].key.pem"},
+            {verify, verify_peer},
+            {fail_if_no_peer_cert, true}
+        ]},
+
+        % Enable external authentication via rabbitmq_auth_mechanism_ssl
+        % See: https://github.com/rabbitmq/rabbitmq-auth-mechanism-ssl
+        {auth_mechanisms, ['PLAIN', 'AMQPLAIN', 'EXTERNAL']},
+
+        % Use the Common Name (hostname) when using SSL authentication
+        {ssl_cert_login_from, common_name}
+    ]},
+
+    % Settings for the management interface
+    % Source: https://www.rabbitmq.com/mochiweb.html
+    {rabbitmq_management, [
+        {listener, [
+            {port, 15672},
+            {ssl, true}
+        ]}
+    ]}
+].
