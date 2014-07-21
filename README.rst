@@ -188,8 +188,8 @@ Configure Postgres
 Put this at the bottom of ``pg_hba.conf``::
 
     # Stuff for Trigger/Hollowpoint
-    host    all         all         10.225.38.0/24        trust
-    host    all         all         10.225.221.0/24       trust
+    host    all         all         10.20.30.0/24        trust
+    host    all         all         10.20.30.0/24       trust
 
 Change this inside of ``postgresql.conf``::
 
@@ -235,3 +235,75 @@ If you've already got the RPMs in a directory...
 3. The rest of the instructions flow like butter. It took about 10 minutes
    from kickstart to manual config and install to get a new netbot box
    running.
+
+Ubuntu
+======
+
+System
+------
+
+::
+
+    apt-get install -y git vim zsh screen
+
+RabbitMQ
+--------
+
+Install
+~~~~~~
+
+::
+
+    echo "deb http://www.rabbitmq.com/debian/ testing main" >> /etc/apt/sources.list
+    apt-get install -y wget
+    wget http://www.rabbitmq.com/rabbitmq-signing-key-public.asc -O /tmp/rabbitmq-signing-key-public.asc
+    apt-key add /tmp/rabbitmq-signing-key-public.asc
+    apt-get -y update
+    apt-get install -y rabbitmq-server
+
+Configure
+~~~~~~~~
+
+Enable plugins::
+
+    rabbitmq-plugins enable rabbitmq_management
+    rabbitmq-plugins enable rabbitmq_federation
+    rabbitmq-plugins enable rabbitmq_federation_management
+    #echo "[{rabbit, [{loopback_users, []}]}]." > /etc/rabbitmq/rabbitmq.config
+
+Python
+------
+
+Install pip and virtualenv::
+
+    apt-get install -y python-dev python-setuptools python-pip python-virtualenv
+    sudo pip install virtualenvwrapper jedi
+
+PostgreSQL
+----------
+
+Create ``/etc/apt/sources.list.d/pgdg.list``::
+
+    echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" >> /etc/apt/sources.list.d/pgdg.list
+
+Import keys::
+
+    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+
+Install
+~~~~~~
+
+::
+
+    sudo apt-get update
+    sudo apt-get upgrade
+    sudo apt-get install -y postgresql-9.3 pgadmin3 libpq-dev
+
+Trigger
+-------
+
+::
+
+    mkvirtualenv hpt
+    workon hpt
+    pip install trigger
