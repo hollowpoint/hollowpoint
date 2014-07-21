@@ -1,4 +1,0 @@
-hollowpoint
-===========
-
-Infrastructure Control Platform
