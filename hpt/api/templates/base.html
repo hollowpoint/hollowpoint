@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en-us" >
+<head>
+    <title>Site administration | Django site admin</title>
+    <meta charset="utf-8" />
+    <meta name="robots" content="NONE,NOARCHIVE" />
+    <!-- STYLESHEETS -->
+    
+        <link href="/static/grappelli/jquery/ui/css/custom-theme/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="/static/grappelli/stylesheets/screen.css" rel="stylesheet" type="text/css" media="screen" />
+        
+            <link href="/static/grappelli/stylesheets/mueller/grid/output.css" rel="stylesheet" type="text/css" media="screen" />
+        
+    
+    <!-- EXTRASTYLES -->
+    
+    <!-- JAVASCRIPTS -->
+    
+    
+        <script type="text/javascript">window.__admin_media_prefix__ = "/static/grappelli/";</script>
+        <script type="text/javascript">window.__admin_utc_offset__ = "0";</script>
+        <script type="text/javascript" charset="utf-8">
+            // GLOBALS
+            var grappelli = {},
+                ADMIN_URL = "/admin/",
+                MODEL_URL_ARRAY = {"1": {"pk": 1, "app": "admin", "model": "logentry"}, "2": {"pk": 2, "app": "auth", "model": "permission"}, "3": {"pk": 3, "app": "auth", "model": "group"}, "4": {"pk": 4, "app": "auth", "model": "user"}, "5": {"pk": 5, "app": "contenttypes", "model": "contenttype"}, "6": {"pk": 6, "app": "sessions", "model": "session"}, "7": {"pk": 7, "app": "djcelery", "model": "taskmeta"}, "8": {"pk": 8, "app": "djcelery", "model": "tasksetmeta"}, "9": {"pk": 9, "app": "djcelery", "model": "intervalschedule"}, "10": {"pk": 10, "app": "djcelery", "model": "crontabschedule"}, "11": {"pk": 11, "app": "djcelery", "model": "periodictasks"}, "12": {"pk": 12, "app": "djcelery", "model": "periodictask"}, "13": {"pk": 13, "app": "djcelery", "model": "workerstate"}, "14": {"pk": 14, "app": "djcelery", "model": "taskstate"}},
+                DATE_FORMAT = "%Y-%m-%d",
+                TIME_FORMAT = "%H:%M:%S",
+                DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S";
+        </script>
+        <!-- jQuery, jQuery-UI -->
+        <script src="/static/grappelli/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+        <script src="/static/grappelli/jquery/ui/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
+        
+            <!-- Grappelli Minified -->
+            <script src="/static/grappelli/js/grappelli.min.js" type="text/javascript"></script>
+        
+        <script type="text/javascript" charset="utf-8">
+            (function($) {
+                $(document).ready(function() {
+                    $("#grp-navigation .grp-collapse").grp_collapsible();
+                });
+            })(grp.jQuery);
+        </script>
+    
+
+    <!-- EXTRAHEAD -->
+    
+</head>
+<body class="dashboard">
+    <div id="grp-container">
+
+        <!-- HEADER -->
+        <header id="grp-header" class="">
+            
+
+                <!-- NAVIGATION -->
+                <div id="grp-navigation">
+                    <h1 id="grp-admin-title"><img src="/static/img/logo.png" alt="Hollowpoint" width="200"></h1>
+                    
+                        <ul id="grp-user-tools">
+                            <!-- Userlinks -->
+                            
+                                <!-- Username -->
+                                <li class="grp-user-options-container grp-collapse grp-closed ">
+                                    <a href="javascript://" class="user-options-handler grp-collapse-handler grp-switch-user-is-original">admin</a>
+                                    <ul class="grp-user-options">
+                                        <!-- Change Password -->
+                                        
+                                            <li><a href="/admin/password_change/" class="grp-change-password">Change password</a></li>
+                                        
+                                        <!-- Logout -->
+                                        <li><a href="/admin/logout/" class="grp-logout">Log out</a></li>
+                                        <!-- Switch -->
+                                        
+                                    </ul>
+                                </li>
+                                <!-- Documentation -->
+                                
+                                
+                            
+                        </ul>
+                    
+                    <!-- Nav-Global -->
+                    
+                </div>
+                
+                <!-- CONTEXT NAVIGATION -->
+                <div id="grp-context-navigation">
+                    <nav id="grp-breadcrumbs" class="">
+                        <header style="display:none"><h1>Breadcrumbs</h1></header>
+                        
+    <ul class="grp-horizontal-list">
+        <li>Home</li>
+    </ul>
+
+                    </nav>
+                    <nav id="grp-page-tools">
+                        <header style="display:none"><h1>Page Tools</h1></header>
+                        
+                    </nav>
+                </div>
+            
+        </header>
+
+        <!-- CONTENT -->
+        <article id="grp-content" class="content-grid">
+            
+            <!-- MESSAGES -->
+            
+                
+            
+
+            <!-- CONTENT TITLE -->
+            <header id="grp-content-title">
+                
+                
+    
+        <header><h1>Change Password</h1></header>
+    
+
+                
+            </header>
+
+            <!-- CONTENT-CONTAINER -->
+            <div id="grp-content-container">
+                
+    <div class="g-d-c">
+        <div class="g-d-12 g-d-f">
+        {% block content %}{% endblock %}
+            
+        </div>
+        
+    </div>
+
+            </div>
+
+        </article>
+        
+        <!-- FOOTER -->
+        
+
+    </div>
+</body>
+</html>
+

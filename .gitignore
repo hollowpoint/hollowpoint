@@ -53,5 +53,5 @@ docs/_build/
 
 # System
 *.pid
-.sw?
+*.sw?
 flower.db

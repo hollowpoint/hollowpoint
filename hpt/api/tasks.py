@@ -110,7 +110,8 @@ def _load_plugin_task(mod_name, force=False):
     # future for more complex environments. Perhaps in the task plugin?
     task_name = module.task_name
     @shared_task(base=SessionTask, name='api.tasks.' + task_name)
-    def dummy(devices, api_key, *args, **kwargs):
+    def dummy(devices, *args, **kwargs):
+    #def dummy(devices, api_key, *args, **kwargs):
         return run(my.method_name, creds=my.creds, devices=devices, *args, **kwargs)
 
     XMLRPC_SERVER.add_handler(mod_name, task_name, force)
@@ -139,29 +140,22 @@ def run(method, *args, **kwargs):
 ## Built-in tasks. In the future all built-in tasks will be plugins!
 ## (In Soviet Russia, task plugs you!)
 ##
-"""
 @shared_task(base=SessionTask)
-def execute_commands(devices, commands, api_key, force_cli=False, *args, **kwargs):
+def execute_commands(devices, commands, force_cli=False, *args, **kwargs):
+#def execute_commands(devices, commands, api_key, force_cli=False, *args, **kwargs):
     return run(my.method_name, creds=my.creds, devices=devices, commands=commands, force_cli=force_cli, *args, **kwargs)
-"""
 
+"""
 @shared_task
 def execute_commands(*args, **kwargs):
     result = XMLRPC_SERVER.execute_commands(args, kwargs)
     return result
-
-@shared_task
-def change_passwords(*args, **kwargs):
-    result = XMLRPC_SERVER.change_passwords(args, kwargs)
-    return result
-
 """
+
 @shared_task
 def trigger_add(x, y):
-    client = xmlrpclib.Server('http://%S:9000/' % TRIGGER_HOST)
-    result = client.add(x, y)
+    result = XMLRPC_SERVER.add(x, y)
     return result
-"""
 
 # Load the pluggable tasks
 load_plugin_tasks()
