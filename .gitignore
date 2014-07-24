@@ -55,3 +55,6 @@ docs/_build/
 *.pid
 *.sw?
 flower.db
+
+# Vagrant
+.vagrant/
