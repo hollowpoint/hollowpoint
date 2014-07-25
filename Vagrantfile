@@ -128,9 +128,12 @@ Vagrant.configure("2") do |config|
   config.vm.provision "docker" do |d|
      # RabbitMQ
      d.run "jathanism/rabbitmq",
-        args: "-p 5672:5672 -p 15672:15672"
+        args: "--name rabbitmq -p 5672:5672 -p 15672:15672"
      # Redis
-     d.run "jathanism/redis",
-        args: "-p 6379:6379"
+     d.run "redis:2.8.12",
+        args: "--name redis -p 6379:6379"
+     # Postgres
+     d.run "postgres:9.3.4",
+        args: "--name postgres -p 5432:5432"
   end
 end

@@ -316,11 +316,26 @@ RabbitMQ
 
 To have RabbitMQ listen on the proper ports (5672/tcp, 15672/tcp)::
 
-    docker run -d -p 5672:5672 -p 15672:15672 jathanism/rabbitmq
+    docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 jathanism/rabbitmq
 
 Redis
 -----
 
 To have Redis listen on the proper ports (6379/tcp)::
 
-    docker run -d -p 6379:6379 jathanism/redis
+    docker run -d --name redis -p 6379:6379 redis:2.8.12
+
+PostgreSQL
+----------
+
+Start it up::
+
+    docker run -d --name postgres -p 5432:5432 postgres:9.3.4
+
+Connect to the database using ``psql``::
+
+    docker run -it --rm --link postgres:db postgres:9.3.4 sh -c 'exec psql -h "$DB_PORT_5432_TCP_ADDR" -p "$DB_PORT_5432_TCP_PORT" -U postgres'
+
+If you're using ``DATABASE_URL``, set it like so::
+
+    export DATABASE_URL=postgres://postgres@127.0.0.1:5432/hpt
