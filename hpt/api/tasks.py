@@ -2,6 +2,7 @@ from __future__ import absolute_import
 from celery import current_task, shared_task, Task
 from celery.utils.log import get_task_logger
 import importlib
+import socket
 from trigger.conf import settings
 import os
 import sys
@@ -114,7 +115,11 @@ def _load_plugin_task(mod_name, force=False):
     #def dummy(devices, api_key, *args, **kwargs):
         return run(my.method_name, creds=my.creds, devices=devices, *args, **kwargs)
 
-    XMLRPC_SERVER.add_handler(mod_name, task_name, force)
+    try:
+        XMLRPC_SERVER.add_handler(mod_name, task_name, force)
+    except socket.error as err:
+        msg = 'Trigger XMLRPC service encountered an error: %s' % (err,)
+        raise RuntimeError(msg)
 
 def run(method, *args, **kwargs):
     """Calls the ``method`` on the XMLRPC server."""
