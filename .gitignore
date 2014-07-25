@@ -55,6 +55,7 @@ docs/_build/
 *.pid
 *.sw?
 flower.db
+staticfiles/
 
 # Vagrant
 .vagrant/

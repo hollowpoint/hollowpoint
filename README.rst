@@ -307,3 +307,20 @@ Trigger
     mkvirtualenv hpt
     workon hpt
     pip install trigger
+
+Docker
+======
+
+RabbitMQ
+--------
+
+To have RabbitMQ listen on the proper ports (5672/tcp, 15672/tcp)::
+
+    docker run -d -p 5672:5672 -p 15672:15672 jathanism/rabbitmq
+
+Redis
+-----
+
+To have Redis listen on the proper ports (6379/tcp)::
+
+    docker run -d -p 6379:6379 jathanism/redis

@@ -11,7 +11,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
   #config.vm.box = "chef/centos-6.5"
-  config.vm.box = "hashicorp/precise64"
+  #config.vm.box = "hashicorp/precise64"
+  config.vm.box = "chef/ubuntu-14.04"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -121,8 +122,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   #   chef.validation_client_name = "ORGNAME-validator"
 end
+
+# Provision Docker image(s)
 Vagrant.configure("2") do |config|
   config.vm.provision "docker" do |d|
-    d.build_image "/vagrant/hpt"
+     # RabbitMQ
+     d.run "jathanism/rabbitmq",
+        args: "-p 5672:5672 -p 15672:15672"
+     # Redis
+     d.run "jathanism/redis",
+        args: "-p 6379:6379"
   end
 end
