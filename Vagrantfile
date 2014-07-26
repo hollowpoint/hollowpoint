@@ -11,8 +11,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
   #config.vm.box = "chef/centos-6.5"
-  #config.vm.box = "hashicorp/precise64"
-  config.vm.box = "chef/ubuntu-14.04"
+  #config.vm.box = "chef/ubuntu-14.04"
+  config.vm.box = "yungsang/coreos"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
