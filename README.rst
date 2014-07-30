@@ -308,6 +308,23 @@ Trigger
     workon hpt
     pip install trigger
 
+Starting Services
+=================
+
+First start Trigger's XMLRPRC service::
+
+    twistd trigger-xmlrpc -p 9000 -s 9001
+
+The remaining services include the Web UI, API, Flower monitor, and Celerycam
+are managed using supervisord and the ``django-supervisor`` plugin. To start
+services it's as simple as::
+
+    python hpt/manage.py supervisor
+
+All services will automatically start. You may inspect them like so::
+
+    python hpt/manage.py supervisor status
+
 Docker
 ======
 

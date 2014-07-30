@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_extensions',
     'djcelery',
+    'djsupervisor',
     'api',
 )
 
@@ -113,7 +114,8 @@ STATICFILES_DIRS = (
 # http://celery.readthedocs.org/en/latest/configuration.html
 
 # Broker settings.
-BROKER_URL = 'amqp://admin:admin@localhost:5672//'
+#BROKER_URL = 'amqp://admin:admin@localhost:5672//'
+BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 
 # Use SSL to connect to the broker. Off by default. This may not be supported by
 # all transports.
@@ -186,10 +188,12 @@ CELERYCAM_EXPIRE_PENDING = None   # Never expire
 
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 CELERY_TASK_SERIALIZER = 'json'
-#CELERY_RESULT_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
 #CELERY_TIMEZONE = 'America/Los_Angeles'
 #CELERY_ENABLE_UTC = True
+
+CELERY_ACCEPT_CONTENT = ['json', 'msgpack', 'yaml']
 
 # The mapping of queues the worker consumes from. This is a dictionary of queue
 # name/options.
