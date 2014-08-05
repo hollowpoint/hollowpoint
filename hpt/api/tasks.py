@@ -52,6 +52,7 @@ class SessionTask(Task):
 
     @property
     def creds(self):
+        # Creds from api_key (disabled)
         """
         api_key = self.request.kwargs.get('api_key')
         a = ApiKey.objects.get(key=api_key)
@@ -59,12 +60,22 @@ class SessionTask(Task):
              'password': a.password,
              'realm': 'hpt'}
         """
+        # Hard-coded creds
+        """
         creds = {
             'username': 'admin',
-            'password': '00bliss!',
+            #'password': '00bliss!',
+            'password': 'admin',
             'realm': 'hpt',
         }
+        """
+        # Creds from .tacacsrc
+        from trigger.tacacsrc import Tacacsrc
+        t = Tacacsrc()
+        mycreds = t.creds['hpt']
+        creds = dict(mycreds._asdict())
         return creds
+
         #xxx return self._get_session(session_key)
 
     @property
