@@ -33,14 +33,16 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = (
-    'grappelli',
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admin',
     # Server stuff
+    'xadmin',
+    'crispy_forms',
+    'reversion',
     'south',
     'gunicorn',
     # Application stuff
@@ -258,6 +260,13 @@ CELERY_ROUTES = {
 # Look & Feel
 #GRAPPELLI_ADMIN_TITLE = 'Hollowpoint'
 GRAPPELLI_ADMIN_TITLE = '<img src="/static/img/logo.png" alt="Hollowpoint" width="200">'
+
+TEMPLATE_DIRS = (
+    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    os.path.join(PROJECT_ROOT, "templates"),
+)
 
 # Logging
 from django.conf.global_settings import LOGGING

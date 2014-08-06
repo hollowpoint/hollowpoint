@@ -16,12 +16,18 @@ def _prototype_netdevices(netdevices_file):
 # Create your models here.
 _ndfile = '/home/jathan/sandbox/hollowpoint/configs/netdevices.json'
 
+ADMINSTATUS_CHOICES = (
+    ('PRODUCTION', 'Production'),
+    ('NON-PRODUCTION', 'Non-Production'),
+)
+
 class NetDevice(models.Model):
     """
     Model for database models of NetDevice objects
     """
     #_fields = _prototype_netdevices(_ndfile)
-    adminStatus = models.CharField(max_length=255, default='', null=False, blank=True)
+    adminStatus = models.CharField(_('Administrative Status'), max_length=255,
+        default='', null=False, blank=True, choices=ADMINSTATUS_CHOICES)
     assetID = models.CharField(max_length=255, default='', null=False, blank=True)
     authMethod = models.CharField(max_length=255, default='', null=False, blank=True)
     barcode = models.CharField(max_length=255, default='', null=False, blank=True)
@@ -37,7 +43,7 @@ class NetDevice(models.Model):
     lifecycleStatus = models.CharField(max_length=255, default='', null=False, blank=True)
     loginPW = models.CharField(max_length=255, default='', null=False, blank=True)
     make = models.CharField(max_length=255, default='', null=False, blank=True)
-    manufacturer = models.CharField(max_length=255, default='', null=False, blank=True)
+    manufacturer = models.CharField(_('Vendor'), max_length=255, default='', null=False, blank=True)
     model = models.CharField(max_length=255, default='', null=False, blank=True)
     nodeName = models.CharField(max_length=255, default='', null=False, blank=True)
     nodePort = models.CharField(max_length=255, default='', null=False, blank=True)
