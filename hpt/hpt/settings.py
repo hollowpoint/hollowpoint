@@ -40,7 +40,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Server stuff
+    'south',
+    'gunicorn',
+    # Application stuff
     'django_extensions',
+    'mutant',
     'djcelery',
     'djsupervisor',
     'api',
@@ -253,3 +258,7 @@ CELERY_ROUTES = {
 # Look & Feel
 #GRAPPELLI_ADMIN_TITLE = 'Hollowpoint'
 GRAPPELLI_ADMIN_TITLE = '<img src="/static/img/logo.png" alt="Hollowpoint" width="200">'
+
+# Logging
+from django.conf.global_settings import LOGGING
+LOGGING['version'] = 1
