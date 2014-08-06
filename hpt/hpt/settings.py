@@ -45,7 +45,6 @@ INSTALLED_APPS = (
     'gunicorn',
     # Application stuff
     'django_extensions',
-    'mutant',
     'djcelery',
     'djsupervisor',
     'api',
