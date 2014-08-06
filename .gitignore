@@ -57,5 +57,9 @@ docs/_build/
 flower.db
 staticfiles/
 
+# Trigger/Twisted stuff
+twistd.log*
+trigger-xmlrpc.log*
+
 # Vagrant
 .vagrant/
