@@ -14,3 +14,8 @@ urlpatterns = patterns('',
     # Change password
     url(r'^change_password/', 'api.views.change_password'),
 )
+
+from django.conf import settings
+if settings.DEBUG:
+    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+    urlpatterns += staticfiles_urlpatterns()
