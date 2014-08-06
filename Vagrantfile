@@ -42,6 +42,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
+  config.vm.synced_folder "configs/systemd/system", "/etc/systemd/system",
+      type: "rsync"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -121,19 +123,40 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # chef-validator, unless you changed the configuration.
   #
   #   chef.validation_client_name = "ORGNAME-validator"
+
+  # Fix docker not being able to resolve private registry in Virtualbox
+  # config.vm.provider :virtualbox do |vb, override|
+  #   vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+  #   vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+  # end
+end
+
+# Setup systemd
+$script = <<SCRIPT
+systemctl enable /etc/systemd/system/postgres.service
+systemctl enable /etc/systemd/system/redis.service
+systemctl enable /etc/systemd/system/rabbitmq.service
+SCRIPT
+
+Vagrant.configure("2") do |config|
+    config.vm.provision "shell", inline: $script, privileged: true
 end
 
 # Provision Docker image(s)
 Vagrant.configure("2") do |config|
   config.vm.provision "docker" do |d|
+     d.pull_images "jathanism/rabbitmq"
+     d.pull_images "redis:2.8.12"
+     d.pull_images "postgres:9.3.4"
+
      # RabbitMQ
-     d.run "jathanism/rabbitmq",
-        args: "--name rabbitmq -p 5672:5672 -p 15672:15672"
+     #d.run "jathanism/rabbitmq",
+     #   args: "--name rabbitmq -p 5672:5672 -p 15672:15672"
      # Redis
-     d.run "redis:2.8.12",
-        args: "--name redis -p 6379:6379"
+     #d.run "redis:2.8.12",
+     #   args: "--name redis -p 6379:6379"
      # Postgres
-     d.run "postgres:9.3.4",
-        args: "--name postgres -p 5432:5432"
+     #d.run "postgres:9.3.4",
+     #   args: "--name postgres -p 5432:5432"
   end
 end

@@ -356,3 +356,18 @@ Connect to the database using ``psql``::
 If you're using ``DATABASE_URL``, set it like so::
 
     export DATABASE_URL=postgres://postgres@127.0.0.1:5432/hpt
+
+Registry
+--------
+
+Running a custom registry that stores the stuff in ``/data/docker/registry``::
+
+    docker run -d -p 5000:5000 -v /data/docker/registry:/tmp/registry --name registry registry:latest
+
+Then you can tag an existing image with ``localhost:5000`` as the user::
+
+    docker tag jathanism/rabbitmq localhost:5000/rabbitmq
+
+And then push it to the registry::
+
+    docker push localhost:5000/rabbitmq
