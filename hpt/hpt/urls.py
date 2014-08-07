@@ -22,6 +22,9 @@ urlpatterns = patterns('',
 
     # Change password
     url(r'^change_password/', 'api.views.change_password'),
+
+    # Django REST Framework
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 )
 
 from django.conf import settings

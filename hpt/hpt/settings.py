@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'south',
     'gunicorn',
     # Application stuff
+    'rest_framework',
     'django_extensions',
     'ws4redis',
     'djangular',
@@ -278,3 +279,7 @@ LOGGING['version'] = 1
 # Websocket business
 # Specify the URL that distinguishes websocket connections from normal requests
 WEBSOCKET_URL = '/ws/'
+
+# Sessions
+SESSION_ENGINE = 'redis_sessions.session'
+SESSION_REDIS_PREFIX = 'session'
