@@ -47,6 +47,8 @@ INSTALLED_APPS = (
     'gunicorn',
     # Application stuff
     'django_extensions',
+    'ws4redis',
+    'djangular',
     'djcelery',
     'djsupervisor',
     'api',
@@ -67,6 +69,7 @@ from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 TEMPLATE_CONTEXT_PROCESSORS = TCP + (
     # This is for grappelli
     'django.core.context_processors.request',
+    'ws4redis.context_processors.default',
 )
 
 ROOT_URLCONF = 'hpt.urls'
@@ -271,3 +274,7 @@ TEMPLATE_DIRS = (
 # Logging
 from django.conf.global_settings import LOGGING
 LOGGING['version'] = 1
+
+# Websocket business
+# Specify the URL that distinguishes websocket connections from normal requests
+WEBSOCKET_URL = '/ws/'
