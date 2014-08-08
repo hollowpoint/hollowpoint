@@ -41,10 +41,9 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Server stuff
     'xadmin',
+    'south',
     'crispy_forms',
     'reversion',
-    'south',
-    'gunicorn',
     # Application stuff
     'rest_framework',
     'django_extensions',
@@ -56,19 +55,22 @@ INSTALLED_APPS = (
     'inventory',
 )
 
+# Note for caching to work the explicit ordering of the CacheMiddleware must be
+# maintained.
 MIDDLEWARE_CLASSES = (
+    'django.middleware.cache.UpdateCacheMiddleware', # This must be first!
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware', # This must be last!
 )
 
 # Custom context processors to add template variables
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 TEMPLATE_CONTEXT_PROCESSORS = TCP + (
-    # This is for grappelli
     'django.core.context_processors.request',
     'ws4redis.context_processors.default',
 )
@@ -276,10 +278,60 @@ TEMPLATE_DIRS = (
 from django.conf.global_settings import LOGGING
 LOGGING['version'] = 1
 
-# Websocket business
+#####################
+# Websocket for Redis
+#####################
 # Specify the URL that distinguishes websocket connections from normal requests
 WEBSOCKET_URL = '/ws/'
 
+# If the Redis datastore uses connection settings other than the defaults, use
+# this dictionary to override these values.
+WS4REDIS_CONNECTION = {
+    #'host': 'localhost',
+    #'port': 6379,
+    'db': 1,
+    #'password': None,
+}
+
+# This directive sets the number in seconds, each received message is persisted
+# by Redis, additionally of being published on the message queue.
+WS4REDIS_EXPIRE = 7200
+
+# Websocket for Redis can prefix each entry in the datastore with a string. By
+# default, this is empty. If the same Redis connection is used to store other
+# kinds of data, in order to avoid name clashes you're encouraged to prefix
+# these entries with a unique string.
+WS4REDIS_PREFIX = 'ws'
+
+# This setting is required to override the Django's main loop, when running in
+# development mode, such as ./manage runserver. This setting is ignored in
+# production environments.
+WSGI_APPLICATION = 'ws4redis.django_runserver.application'
+
+##########
 # Sessions
+##########
 SESSION_ENGINE = 'redis_sessions.session'
 SESSION_REDIS_PREFIX = 'session'
+
+########
+# Caches
+########
+# Setup REdis to store cache data (instead of memcached)
+# For more advanced setup:
+# http://michal.karzynski.pl/blog/2013/07/14/using-redis-as-django-session-store-and-cache-backend/
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION': 'localhost:6379',
+        'OPTIONS': {
+            'DB': 2,
+            'PARSER_CLASS': 'redis.connection.HiredisParser',
+            'CONNECTION_POOL_CLASS': 'redis.BlockingConnectionPool',
+            'CONNECTION_POOL_CLASS_KWARGS': {
+                'max_connections': 50,
+                'timeout': 20,
+            },
+        },
+    },
+}
