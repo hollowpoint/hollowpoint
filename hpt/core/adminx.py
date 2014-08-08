@@ -57,6 +57,8 @@ class BaseSetting(object):
 xadmin.site.register(views.BaseAdminView, BaseSetting)
 
 class GlobalSetting(object):
+    site_title = 'Hollowpoint'
+    #site_title = escape('<img src="/static/img/logo.png" alt="Hollowpoint" width="200">')
     global_search_models = [NetDevice, TaskMeta]
     global_models_icon = {
         NetDevice: 'fa fa-laptop',

@@ -9,6 +9,13 @@ xadmin.autodiscover()
 from django.contrib import admin
 admin.autodiscover()
 
+"""
+from rest_framework import routers
+from inventory import views
+router = routers.DefaultRouter()
+router.register(r'inventory', views.NetDeviceViewSet)
+"""
+
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'hpt.views.home', name='home'),
@@ -22,6 +29,10 @@ urlpatterns = patterns('',
 
     # Change password
     url(r'^change_password/', 'core.views.change_password'),
+
+    # Inventory API
+    #url(r'^api/', include(router.urls)),
+    url(r'^api/', include('inventory.urls')),
 
     # Django REST Framework
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
