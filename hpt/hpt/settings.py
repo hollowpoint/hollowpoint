@@ -51,7 +51,7 @@ INSTALLED_APPS = (
     'djangular',
     'djcelery',
     'djsupervisor',
-    'api',
+    'core',
     'inventory',
 )
 
@@ -244,19 +244,19 @@ CELERY_CREATE_MISSING_QUEUES = True
 # Default exchange type used when no custom exchange type is specified for a key
 # in the CELERY_QUEUES setting. The default is: direct.
 CELERY_ROUTES = {
-    'api.tasks.add': {
+    'core.tasks.add': {
         'queue': 'math',
         'routing_key': 'math.add',
     },
-    'api.tasks.mul': {
+    'core.tasks.mul': {
         'queue': 'math',
         'routing_key': 'math.mul',
     },
-    'api.tasks.xsum': {
+    'core.tasks.xsum': {
         'queue': 'math',
         'routing_key': 'math.xsum',
     },
-    'api.tasks.execute_commands': {
+    'core.tasks.execute_commands': {
         'queue': 'commands',
         'routing_key': 'commands.execute',
     },

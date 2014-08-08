@@ -6,58 +6,6 @@ from xadmin.plugins.batch import BatchChangeAction
 
 # Models
 from inventory.models import NetDevice
-from djcelery.models import TaskMeta, TaskState
-
-class MainDashboard(object):
-    widgets = [
-        [
-            {
-                'type': 'html',
-                'title': 'Greetings',
-                'content': 
-                    """
-                    <h3>Welcome to Hollowpoint!</h3>
-                    <p>Join us on IRC at <a
-                    href="irc://irc.freenode.net:6667/hollowpoint">#hollowpoint</b>
-                    on Freenode.</p>
-                    """
-            },
-            {
-                'type': 'list',
-                'model': 'inventory.netdevice',
-            },
-            {
-                'type': 'list',
-                'model': 'djcelery.taskmeta',
-            },
-        ],
-        [
-            {
-                'type': 'qbutton',
-                'title': 'Quick Start',
-                'btns': [
-                    {'model': NetDevice},
-                    {'model': TaskMeta},
-                ],
-            },
-        ],
-    ]
-xadmin.site.register(views.website.IndexView, MainDashboard)
-
-class BaseSetting(object):
-    enable_themes = True
-    use_bootswatch = True
-xadmin.site.register(views.BaseAdminView, BaseSetting)
-
-class GlobalSetting(object):
-    global_search_models = [NetDevice, TaskMeta]
-    global_models_icon = {
-        NetDevice: 'fa fa-laptop',
-        TaskMeta: 'fa fa-cloud',
-    }
-    menu_style = 'default' # 'accordion'
-xadmin.site.register(views.CommAdminView, GlobalSetting)
-
 
 # Register your models here.
 class NetDeviceAdmin(object):
@@ -137,12 +85,3 @@ class NetDeviceAdmin(object):
     }
 
 xadmin.site.register(NetDevice, NetDeviceAdmin)
-
-class TaskMetaAdmin(object):
-    """Celery TaskMeta information class"""
-    readonly_fields = ('result', 'traceback')
-    search_fields = ('task_id',)
-    list_display = ('task_id', 'status', 'hidden')
-xadmin.site.register(TaskMeta, TaskMetaAdmin)
-
-#xadmin.site.register(TaskState)

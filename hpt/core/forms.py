@@ -43,7 +43,7 @@ class ChangePasswordForm(forms.Form):
         kwargs = self.cleaned_data
         data = dict(kwargs=kwargs)
         payload = json.dumps(data)
-        url = 'http://ops.lab.hollow.pt:5555/api/task/async-apply/api.tasks.change_password'
+        url = 'http://ops.lab.hollow.pt:5555/api/task/async-apply/core.tasks.change_password'
         r = requests.post(url, data=payload)
         rdata = r.json()
         return rdata['task-id']

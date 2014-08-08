@@ -83,7 +83,7 @@ class SessionTask(Task):
         """
         Return the method_name to map to based on ``current_task.name``.
 
-        e.g. "api.tasks.execute_commands" returns "execute_commands"
+        e.g. "core.tasks.execute_commands" returns "execute_commands"
         """
         _, method_name = self.name.rsplit('.', 1)
         return method_name
@@ -118,10 +118,10 @@ def _load_plugin_task(mod_name, force=False):
         return None
 
     # This will create the dynamic task. We're assuming the queue will be
-    # 'api.tasks.' for now. This will likely have to be adapted somehow in the
+    # 'core.tasks.' for now. This will likely have to be adapted somehow in the
     # future for more complex environments. Perhaps in the task plugin?
     task_name = module.task_name
-    @shared_task(base=SessionTask, name='api.tasks.' + task_name)
+    @shared_task(base=SessionTask, name='core.tasks.' + task_name)
     def dummy(devices, *args, **kwargs):
     #def dummy(devices, api_key, *args, **kwargs):
         return run(my.method_name, creds=my.creds, devices=devices, *args, **kwargs)

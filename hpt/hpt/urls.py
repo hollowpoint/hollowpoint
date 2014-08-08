@@ -21,7 +21,7 @@ urlpatterns = patterns('',
     url(r'^', include(xadmin.site.urls)),
 
     # Change password
-    url(r'^change_password/', 'api.views.change_password'),
+    url(r'^change_password/', 'core.views.change_password'),
 
     # Django REST Framework
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
