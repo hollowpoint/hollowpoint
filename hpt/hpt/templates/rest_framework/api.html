@@ -1,0 +1,71 @@
+{% extends "rest_framework/base.html" %}
+{% load xadmin_tags %}{% load i18n %}
+
+{% block meta%}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="robots" content="NONE,NOARCHIVE" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+{% endblock %}
+
+{% block title %}Hollowpoint | REST API{% endblock %}
+
+{% block style %}
+    {% vendor 'bootstrap.css' %}
+
+    {% block bootstrap_theme %}
+        <link rel="stylesheet" type="text/css" id="site-theme" href="http://bootswatch.com/yeti/bootstrap.min.css">
+    {% endblock %}
+
+    <link rel="stylesheet" type="text/css" href="{% static "rest_framework/css/prettify.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "rest_framework/css/default.css" %}"/>
+    {% vendor 'font-awesome.css' 'xadmin.main.css' 'xadmin.plugins.css' 'xadmin.responsive.css' %}
+    {% vendor 'jquery.js' %}
+
+{% url 'xadmin:index' as indexurl %}
+  <script type="text/javascript">
+    window.__admin_media_prefix__ = "{% filter escapejs %}{% static "xadmin/" %}{% endfilter %}";
+    window.__admin_path_prefix__ = "{% filter escapejs %}{{ indexurl }}{% endfilter %}";
+  </script>
+  <script type="text/javascript" src="{% url 'xadmin:jsi18n' %}"></script>
+{% endblock %}
+
+{% block bodyclass %}dashboard{% endblock %}
+
+{# navbar #}
+{% block navbar %}
+<!-- Header -->
+<div id="top-nav" class="navbar navbar-xs navbar-inverse navbar-fixed-top">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/">{% block branding %}Hollowpoint | REST API{% endblock %}</a>
+    </div>
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+        {% view_block 'top_navmenu' %}
+        {% if user.is_active and user.is_staff %}
+            <li class="dropdown">
+                <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
+                <strong>{% trans 'Welcome,' %} {% filter force_escape %}{% firstof user.first_name user.username %}{% endfilter %}</strong> <span class="caret"></span></a>
+                <ul id="g-account-menu" class="dropdown-menu" role="menu">
+                    {% view_block 'top_account_menu' %}
+                </ul>
+            </li>
+        {% endif %}
+            <li><a href="{% url 'xadmin:logout' %}"><i class="show-sm fa fa-sign-out"></i><span class="hide-sm">{% trans 'Log out' %}</span></a></li>
+        </ul>
+        {% view_block 'top_navbar' %}
+    </div>
+</div>
+ {% vendor 'jquery-ui-sortable.js' 'bootstrap.js' 'xadmin.main.js' 'xadmin.responsive.js' %}
+{% endblock %}
+{# end navbar #}
+
+{# footer #}
+{% block footer %}
+  <div id="footer">
+    <hr/>
+    <footer class="text-center">
+        <p>&copy; {% block site_footer %}Hollowpoint Technology Group, Inc.{% endblock %}</p>
+    </footer>
+  </div>
+{% endblock %}
+{# end footer #}

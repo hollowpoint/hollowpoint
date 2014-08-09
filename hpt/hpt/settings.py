@@ -11,8 +11,19 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 import socket
 
+
+#############
+# Directories
+#############
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# e.g. /path/to/hollowpoint/hpt/
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+# e.g. /path/to/hollowpoint
+PROJECT_ROOT = os.path.dirname(BASE_DIR)
+
+# e.g. /path/to/hollowpoint/hpt/hpt
+SETTINGS_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -66,13 +77,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware', # This must be last!
-)
-
-# Custom context processors to add template variables
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
-TEMPLATE_CONTEXT_PROCESSORS = TCP + (
-    'django.core.context_processors.request',
-    'ws4redis.context_processors.default',
 )
 
 ROOT_URLCONF = 'hpt.urls'
@@ -137,8 +141,7 @@ BROKER_USE_SSL = False
 
 # A dict of additional options passed to the underlying transport.
 # See: http://kombu.readthedocs.org/en/latest/reference/kombu.connection.html
-PROJECT_ROOT = os.path.dirname(BASE_DIR)
-SSL_DIR = os.path.join(PROJECT_ROOT, 'ssl')
+SSL_DIR = os.path.join(PROJECT_ROOT, 'configs/ssl')
 FQDN = socket.getfqdn()
 """
 BROKER_TRANSPORT_OPTIONS = {
@@ -267,11 +270,22 @@ CELERY_ROUTES = {
 #GRAPPELLI_ADMIN_TITLE = 'Hollowpoint'
 GRAPPELLI_ADMIN_TITLE = '<img src="/static/img/logo.png" alt="Hollowpoint" width="200">'
 
+###########
+# Templates
+###########
+# Custom context processors to add template variables
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
+TEMPLATE_CONTEXT_PROCESSORS = TCP + (
+    'django.core.context_processors.request',
+    'ws4redis.context_processors.default',
+)
+
+# http://stackoverflow.com/a/15411829/194311
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_ROOT, "templates"),
+    os.path.join(SETTINGS_ROOT, "templates").replace('\\', '/'),
 )
 
 # Logging
@@ -335,6 +349,11 @@ CACHES = {
         },
     },
 }
+
+# Disable cache if we're debugging
+# http://stackoverflow.com/a/7603746/194311
+if DEBUG:
+    CACHES['default']['BACKEND'] = 'django.core.cache.backends.dummy.DummyCache'
 
 ################
 # REST Framework
