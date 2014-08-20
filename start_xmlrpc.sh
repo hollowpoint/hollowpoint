@@ -9,4 +9,4 @@ TWISTD=`which twistd`
 $TWISTD -l trigger-xmlrpc.log trigger-xmlrpc -p 9000 -s 9001
 
 # Watch the log
-tail -f trigger-xmlrpc.log
+tail -F trigger-xmlrpc.log

@@ -361,4 +361,6 @@ if DEBUG:
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
     'PAGINATE_BY': 10,
+    'PAGINATE_BY_PARAM': 'limit', # Override, using `?limit=xxx`
+    'MAX_PAGINATE_BY': None,          # Max limit, None disables it
 }
