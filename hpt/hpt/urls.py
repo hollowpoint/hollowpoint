@@ -38,7 +38,7 @@ urlpatterns = patterns('',
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 )
 
-from django.conf import settings
-if settings.DEBUG:
-    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-    urlpatterns += staticfiles_urlpatterns()
+#from django.conf import settings
+#if settings.DEBUG:
+#    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+#    urlpatterns += staticfiles_urlpatterns()

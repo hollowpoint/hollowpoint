@@ -1,6 +1,8 @@
 import xadmin
 from xadmin import views
 from xadmin import layout
+from xadmin.layout import (Main, TabHolder, Tab, Fieldset, Row, Col,
+                           AppendedText, Side)
 from xadmin.plugins.inline import Inline
 from xadmin.plugins.batch import BatchChangeAction
 
@@ -11,51 +13,62 @@ from inventory.models import NetDevice
 class NetDeviceAdmin(object):
     """Customizing the view of devices in the admin"""
     list_filter = ('manufacturer', 'deviceType', 'site')
-    list_display = ('nodeName', 'manufacturer', 'deviceType', 'make', 'model',
+    list_display = ('node_name', 'manufacturer', 'deviceType', 'make', 'model',
         'adminStatus')
-    list_editable = ('nodeName', 'manufacturer', 'deviceType', 'make', 'model',
+    list_editable = ('node_name', 'manufacturer', 'deviceType', 'make', 'model',
         'adminStatus')
-    search_fields = ('nodeName',)
+    search_fields = ('node_name',)
     style_fields = {'system': 'radio-inline'}
+    grid_layouts = ('table', 'thumbnails')
 
     form_layout = (
-        layout.Main(
-            layout.TabHolder(
-                layout.Tab('Primary Fields',
-                    layout.Fieldset('Basics',
-                        'nodeName', 'nodePort', 'lastUpdate',
+        Main(
+            TabHolder(
+                Tab('Primary Fields',
+                    Fieldset('Basics',
+                        'node_name', 'nodePort', 'lastUpdate',
                         description='Used to connect to the device',
                     ),
-                    layout.Fieldset('Hardware Info',
-                        'manufacturer', 'deviceType',
-                        layout.Row('make', 'model'),
+                    Fieldset('Hardware Info',
+                        'manufacturer', 'deviceType', 'make', 'model',
                         'serialNumber',
                     ),
-                    layout.Fieldset('Location',
-                        layout.Row('site', 'room', 'coordinate'),
+                    Fieldset('Location',
+                        'site', 'room', 'coordinate',
                     ),
                 ),
-                layout.Tab('Administrivia',
-                    layout.Fieldset('Asset Information',
-                        'assetID', 'budgetCode', 'budgetName', 
+                Tab('Administrivia',
+                    Fieldset('Asset Information',
+                        'assetID', 'budgetCode', 'budgetName',
                     ),
-                    layout.Fieldset('Contact details',
+                    Fieldset('Contact details',
                         'owner', 'owningTeam', 'onCallName', 'onCallEmail',
+                    ),
+                ),
+                Tab('Security',
+                    Fieldset(
+                        'get_acls',
+                        'get_explicit_acls',
+                        'get_implicit_acls',
+                        description='ACLs and security policies',
                     ),
                 ),
             ),
         ),
-        layout.Side(
-            layout.Fieldset('Status data',
+        Side(
+            Fieldset('Status data',
                 'adminStatus', 'operationStatus', 'lifecycleStatus',
             ),
         ),
 
     )
 
+    reversion_enabled = True
+
+    """
     fieldsets = (
         ('Basics', {
-            'fields': ('nodeName', 'nodePort'),
+            'fields': ('node_name', 'nodePort'),
         }),
         ('Hardware Info', {
             'fields': ('manufacturer', 'deviceType', 'make', 'model', 'serialNumber')
@@ -71,6 +84,7 @@ class NetDeviceAdmin(object):
             'fields': ('site', 'room', 'coordinate'),
         }),
     )
+    """
 
     data_charts = {
         'devices_by_vendor': {

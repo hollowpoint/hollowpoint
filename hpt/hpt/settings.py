@@ -41,15 +41,20 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
+########################
 # Application definition
+########################
 
 INSTALLED_APPS = (
+    # Django core
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    # Debug Toolbar
+    #'debug_toolbar',
     # Server stuff
     'xadmin',
     'south',
@@ -83,8 +88,9 @@ ROOT_URLCONF = 'hpt.urls'
 
 WSGI_APPLICATION = 'hpt.wsgi.application'
 
-
+##########
 # Database
+##########
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
@@ -102,7 +108,9 @@ if os.getenv('DATABASE_URL'):
     import dj_database_url
     DATABASES['default'] = dj_database_url.config()
 
+######################
 # Internationalization
+######################
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
@@ -116,7 +124,9 @@ USE_L10N = True
 USE_TZ = True
 
 
+##############
 # Static files (CSS, JavaScript, Images)
+##############
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
@@ -125,9 +135,9 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-################
-# Celery Stuff #
-################
+########
+# Celery
+########
 # http://celery.readthedocs.org/en/latest/configuration.html
 
 # Broker settings.
@@ -178,7 +188,7 @@ CELERY_TASK_RESULT_EXPIRES = None # Never
 CELERY_RESULT_PERSISTENT = True
 
 # If True the task will report its status as "started" when the task is executed
-# by a worker. 
+# by a worker.
 CELERY_TRACK_STARTED = True
 
 # Send events so the worker can be monitored by tools like celerymon.
@@ -325,8 +335,12 @@ WSGI_APPLICATION = 'ws4redis.django_runserver.application'
 ##########
 # Sessions
 ##########
+
 SESSION_ENGINE = 'redis_sessions.session'
+
 SESSION_REDIS_PREFIX = 'session'
+
+SESSION_COOKIE_NAME = 'hpt'
 
 ########
 # Caches
@@ -364,3 +378,9 @@ REST_FRAMEWORK = {
     'PAGINATE_BY_PARAM': 'limit', # Override, using `?limit=xxx`
     'MAX_PAGINATE_BY': None,          # Max limit, None disables it
 }
+
+#########
+# Trigger
+#########
+TRIGGER_SETTINGS = '/home/jathan/.trigger/settings.py'
+os.environ['TRIGGER_SETTINGS'] = TRIGGER_SETTINGS
