@@ -82,7 +82,7 @@ class NetDevice(models.Model):
         verbose_name_plural = _('Network Devices')
 
     def get_acl_dict(self):
-        if not hasattr(self, '_acls_dict'):
+        if not hasattr(self, '_acl_dict'):
             self._acl_dict = {}
             try:
                 from trigger.acl.db import AclsDB
@@ -93,7 +93,7 @@ class NetDevice(models.Model):
                 dev = _get_netdevices().get(self.nodeName)
                 if dev is not None:
                     acl_dict = aclsdb.get_acl_dict(dev)
-                self._acl_dict = acl_dict
+                    self._acl_dict = acl_dict
 
         return self._acl_dict
 
@@ -109,7 +109,7 @@ class NetDevice(models.Model):
         return self.get_acl_dict().get('all', set())
     #get_acls.short_description = 'All ACLs associated to this device'
     get_acls.short_description = 'All ACLs'
-    get_acls.is_column = True
+    get_acls.is_column = False
 
     @property
     def acls(self):
@@ -120,7 +120,7 @@ class NetDevice(models.Model):
         return self.get_acl_dict().get('explicit', set())
     #get_explicit_acls.short_description = 'ACLs explicitly associated to this device'
     get_explicit_acls.short_description = 'Explicit ACLs'
-    get_explicit_acls.is_column = True
+    get_explicit_acls.is_column = False
 
     @property
     def explicit_acls(self):
@@ -131,7 +131,7 @@ class NetDevice(models.Model):
         return self.get_acl_dict().get('implicit', set())
     #get_implicit_acls.short_description = 'ACLs automatically associated to this device'
     get_implicit_acls.short_description = 'Auto ACLs'
-    get_implicit_acls.is_column = True
+    get_implicit_acls.is_column = False
 
     @property
     def implicit_acls(self):

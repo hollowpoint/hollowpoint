@@ -5,6 +5,7 @@ from xadmin.layout import (Main, TabHolder, Tab, Fieldset, Row, Col,
                            AppendedText, Side)
 from xadmin.plugins.inline import Inline
 from xadmin.plugins.batch import BatchChangeAction
+from xadmin.views.list import FakeMethodField
 
 # Models
 from inventory.models import NetDevice
@@ -20,6 +21,7 @@ class NetDeviceAdmin(object):
     search_fields = ('node_name',)
     style_fields = {'system': 'radio-inline'}
     grid_layouts = ('table', 'thumbnails')
+    readonly_fields = ('get_acls', 'get_explicit_acls', 'get_implicit_acls')
 
     form_layout = (
         Main(
@@ -46,7 +48,7 @@ class NetDeviceAdmin(object):
                     ),
                 ),
                 Tab('Security',
-                    Fieldset(
+                    Fieldset('Access-Lists',
                         'get_acls',
                         'get_explicit_acls',
                         'get_implicit_acls',

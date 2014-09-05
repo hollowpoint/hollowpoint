@@ -83,6 +83,15 @@ class TaskStateAdmin(object):
     list_display = ('task_id', 'state', 'name', 'args', 'kwargs', 'eta', 'tstamp', 'worker')
     #list_display = TaskMonitor.list_display
     search_fields = ('name', 'task_id', 'args', 'kwargs', 'worker__hostname')
+
+    '''
+    data_charts = {
+        'task_count': {
+            'title': 'Task Count',
+            'x-field': 'state',
+            'y-field': '
+    }
+    '''
 xadmin.site.register(TaskState, TaskStateAdmin)
 
 class TaskMetaAdmin(object):
@@ -90,12 +99,4 @@ class TaskMetaAdmin(object):
     readonly_fields = ('task_id', 'status', 'result', 'traceback')
     search_fields = ('task_id',)
     list_display = ('task_id', 'status', 'hidden')
-
-    """
-    data_charts = {
-        'task_count': {
-            'title': 'Task Count',
-            'x-field': 
-    }
-    """
 xadmin.site.register(TaskMeta, TaskMetaAdmin)
