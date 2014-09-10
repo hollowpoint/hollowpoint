@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from core.models import TaskState, TaskMeta
+
 def _prototype_netdevices(netdevices_file):
     """
     Load NetDevices data from prototype file to use it as columns.gq$
@@ -69,6 +71,8 @@ class NetDevice(models.Model):
     OOBTerminalServerPort = models.CharField(max_length=255, default='', null=False, blank=True)
     OOBTerminalServerTCPPort = models.CharField(max_length=255, default='', null=False, blank=True)
 
+    tasks = models.ManyToManyField(TaskState, related_name='devices')
+
     @property
     def nodeName(self):
         return self.node_name
@@ -80,6 +84,10 @@ class NetDevice(models.Model):
     class Meta:
         verbose_name = _('Network Device')
         verbose_name_plural = _('Network Devices')
+
+    def get_tasks(self):
+        return '\n'.join(str(t) for t in self.tasks.all())
+    get_tasks.short_description = 'Tasks'
 
     def get_acl_dict(self):
         if not hasattr(self, '_acl_dict'):
