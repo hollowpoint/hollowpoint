@@ -43,7 +43,8 @@ class NetDeviceAdmin(object):
     search_fields = ('node_name',)
     style_fields = {'system': 'radio-inline'}
     grid_layouts = ('table', 'thumbnails')
-    readonly_fields = ('get_acls', 'get_explicit_acls', 'get_implicit_acls', 'get_tasks')
+    readonly_fields = ('get_acls', 'get_explicit_acls', 'get_implicit_acls',
+        'get_tasks', 'modified')
     exclude = ('tasks',)
 
     form_layout = (
@@ -51,7 +52,7 @@ class NetDeviceAdmin(object):
             TabHolder(
                 Tab('Primary Fields',
                     Fieldset('Basics',
-                        'node_name', 'nodePort', 'lastUpdate',
+                        'node_name', 'nodePort', 'modified',
                         description='Used to connect to the device',
                     ),
                     Fieldset('Hardware Info',

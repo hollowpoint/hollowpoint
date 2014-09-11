@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django_extensions.db.fields import (ModificationDateTimeField,
+                                         CreationDateTimeField)
 
 from core.models import TaskState, TaskMeta
 
@@ -18,9 +20,22 @@ def _prototype_netdevices(netdevices_file):
 # Create your models here.
 _ndfile = '/home/jathan/sandbox/hollowpoint/configs/netdevices.json'
 
-ADMINSTATUS_CHOICES = (
+ADMIN_STATUS_CHOICES = (
     ('PRODUCTION', 'Production'),
     ('NON-PRODUCTION', 'Non-Production'),
+)
+
+OPERATION_STATUS_CHOICES = (
+    ('MONITORED', 'Monitored'),
+    ('NON-MONITORED', 'Non-Monitored'),
+    ('IGNORED', 'Ignored'),
+)
+
+LIFECYCLE_STATUS_CHOICES = (
+    ('INSTALLED', 'Installed'),
+    ('DECOMMISSIONED', 'Decommissioned'),
+    ('RMA', 'RMA'),
+    ('STORAGE', 'Storage'),
 )
 
 def _get_netdevices():
@@ -34,7 +49,7 @@ class NetDevice(models.Model):
     """
     #_fields = _prototype_netdevices(_ndfile)
     adminStatus = models.CharField(_('Administrative Status'), max_length=255,
-        default='', null=False, blank=True, choices=ADMINSTATUS_CHOICES)
+        default='', null=False, blank=True, choices=ADMIN_STATUS_CHOICES)
     assetID = models.CharField(max_length=255, default='', null=False, blank=True)
     authMethod = models.CharField(max_length=255, default='', null=False, blank=True)
     barcode = models.CharField(max_length=255, default='', null=False, blank=True)
@@ -43,11 +58,13 @@ class NetDevice(models.Model):
     coordinate = models.CharField(max_length=255, default='', null=False, blank=True)
     deviceType = models.CharField(max_length=255, default='', null=False, blank=True)
     enablePW = models.CharField(max_length=255, default='', null=False, blank=True)
-    lastUpdate = models.CharField(max_length=255, default='', null=False, blank=True)
+    #lastUpdate = models.CharField(max_length=255, default='', null=False, blank=True)
+    #lastUpdate = ModificationDateTimeField('Last Update')
     layer2 = models.CharField(max_length=255, default='', null=False, blank=True)
     layer3 = models.CharField(max_length=255, default='', null=False, blank=True)
     layer4 = models.CharField(max_length=255, default='', null=False, blank=True)
-    lifecycleStatus = models.CharField(max_length=255, default='', null=False, blank=True)
+    lifecycleStatus = models.CharField(max_length=255, default='', null=False,
+        blank=True, choices=LIFECYCLE_STATUS_CHOICES)
     loginPW = models.CharField(max_length=255, default='', null=False, blank=True)
     make = models.CharField(max_length=255, default='', null=False, blank=True)
     manufacturer = models.CharField(_('Vendor'), max_length=255, default='', null=False, blank=True)
@@ -58,7 +75,8 @@ class NetDevice(models.Model):
     onCallEmail = models.CharField(max_length=255, default='', null=False, blank=True)
     onCallID = models.CharField(max_length=255, default='', null=False, blank=True)
     onCallName = models.CharField(max_length=255, default='', null=False, blank=True)
-    operationStatus = models.CharField(max_length=255, default='', null=False, blank=True)
+    operationStatus = models.CharField(max_length=255, default='', null=False,
+        blank=True, choices=OPERATION_STATUS_CHOICES)
     owner = models.CharField(max_length=255, default='', null=False, blank=True)
     owningTeam = models.CharField(max_length=255, default='', null=False, blank=True)
     projectName = models.CharField(max_length=255, default='', null=False, blank=True)
@@ -70,6 +88,11 @@ class NetDevice(models.Model):
     OOBTerminalServerNodeName = models.CharField(max_length=255, default='', null=False, blank=True)
     OOBTerminalServerPort = models.CharField(max_length=255, default='', null=False, blank=True)
     OOBTerminalServerTCPPort = models.CharField(max_length=255, default='', null=False, blank=True)
+
+    created = CreationDateTimeField('Created')
+    #modified = ModificationDateTimeField('Modified')
+    modified = ModificationDateTimeField('Last Update')
+    #lastUpdate = modified
 
     tasks = models.ManyToManyField(TaskState, related_name='devices')
 

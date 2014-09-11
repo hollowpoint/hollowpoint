@@ -30,3 +30,13 @@ def change_password(request):
     else:
         form = forms.ChangePasswordForm()
     return render_to_response('change_password_form.html', {'form': form})
+
+from .models import TaskState
+from rest_framework import viewsets
+from .serializers import TaskStateSerializer
+class TaskStateViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows TaskState objects to be viewed.
+    """
+    queryset = TaskState.objects.all()
+    serializer_class = TaskStateSerializer
