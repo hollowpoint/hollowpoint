@@ -155,7 +155,7 @@ class NetDevice(models.Model):
         null=False, blank=True)
 
     # On-call fields
-    onCallEmail = models.CharField(_('On-Call Email'), max_length=255,
+    onCallEmail = models.EmailField(_('On-Call Email'), max_length=255,
         default='', null=False, blank=True)
     onCallID = models.CharField(_('On-Call ID'), max_length=255, default='',
         null=False, blank=True)
