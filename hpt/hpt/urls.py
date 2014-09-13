@@ -32,8 +32,9 @@ urlpatterns = patterns('',
 
     # Inventory API
     #url(r'^api/', include(router.urls)),
-    url(r'^api/', include('inventory.urls')),
+    #url(r'^api/', include('inventory.urls')),
     #url(r'^api/', include('core.urls')),
+    url(r'^api/', include('api.urls')),
 
     # Django REST Framework
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))

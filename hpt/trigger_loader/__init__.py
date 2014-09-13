@@ -14,6 +14,11 @@ else:
     REQUESTS_AVAILABLE = True
     
 
+# Fiel mappings from HPT to Trigger to transform
+TRANSFORM_FIELDS = {
+    'node_name': 'nodeName',
+}
+
 class HollowpointLoader(BaseLoader):
     """
     Wrapper for loading metadata via Hollowpoint.
@@ -35,6 +40,16 @@ class HollowpointLoader(BaseLoader):
         # If we're good, return the results
         if r.ok:
             data = r.json()['results']
+
+        return self.transform_fields(data)
+
+    def transform_fields(self, data)
+        """Transform the fields if they are present"""
+        for d in data:
+            for old, new in TRANSFORM_FIELDS.items():
+                old_value = d.pop(old, None)
+                if old_value is not None:
+                    d[new] = old_value
         return data
 
     def load_data_source(self, data_source, **kwargs):

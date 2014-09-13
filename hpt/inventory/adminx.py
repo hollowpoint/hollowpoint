@@ -43,8 +43,7 @@ class NetDeviceAdmin(object):
     search_fields = ('node_name',)
     style_fields = {'system': 'radio-inline'}
     grid_layouts = ('table', 'thumbnails')
-    readonly_fields = ('get_acls', 'get_explicit_acls', 'get_implicit_acls',
-        'get_tasks', 'modified')
+    readonly_fields = ('get_tasks', 'get_acls', 'modified')
     exclude = ('tasks',)
 
     form_layout = (
@@ -75,12 +74,10 @@ class NetDeviceAdmin(object):
                 ),
                 Tab('Security',
                     Fieldset('Authentication',
-                        'authMethod', 'enablePW', 'loginPW',
+                        'authMethod', 'loginPW', 'enablePW',
                     ),
                     Fieldset('Access-Lists',
                         'get_acls',
-                        'get_explicit_acls',
-                        'get_implicit_acls',
                         description='ACLs and security policies',
                     ),
                 ),

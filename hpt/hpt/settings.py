@@ -53,13 +53,16 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+
     # Debug Toolbar
     #'debug_toolbar',
+
     # Server stuff
     'xadmin',
     'south',
     'crispy_forms',
     'reversion',
+
     # Application stuff
     'overextends',
     'rest_framework',
@@ -68,8 +71,11 @@ INSTALLED_APPS = (
     'djangular',
     'djcelery',
     'djsupervisor',
+
+    # Plugins
     'core',
     'inventory',
+    'acls',
 )
 
 # Note for caching to work the explicit ordering of the CacheMiddleware must be
