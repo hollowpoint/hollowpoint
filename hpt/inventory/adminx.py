@@ -37,7 +37,7 @@ class NetDeviceAdmin(object):
     """Customizing the view of devices in the admin"""
     list_filter = ('manufacturer', 'deviceType', 'site')
     list_display = ('node_name', 'manufacturer', 'deviceType', 'make', 'model',
-        'adminStatus')
+        'adminStatus', 'modified')
     list_editable = ('node_name', 'manufacturer', 'deviceType', 'make', 'model',
         'adminStatus')
     search_fields = ('node_name',)

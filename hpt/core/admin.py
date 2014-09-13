@@ -9,3 +9,8 @@ class TaskMetaAdmin(admin.ModelAdmin):
     search_fields = ('task_id',)
     list_display = ('task_id', 'status', 'hidden')
 admin.site.register(TaskMeta, TaskMetaAdmin)
+
+from xadmin import models as xmodels
+admin.site.register(xmodels.Bookmark)
+admin.site.register(xmodels.UserSettings)
+admin.site.register(xmodels.UserWidget)

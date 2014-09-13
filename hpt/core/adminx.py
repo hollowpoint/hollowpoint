@@ -33,10 +33,16 @@ class MainDashboard(object):
             {
                 'type': 'list',
                 'model': 'inventory.netdevice',
+                'params': {
+                    'o': '-modified',
+                }
             },
             {
                 'type': 'list',
                 'model': 'djcelery.taskmeta',
+                'params': {
+                    'o': '-date_done'
+                }
             },
         ],
         [
@@ -44,8 +50,14 @@ class MainDashboard(object):
                 'type': 'qbutton',
                 'title': 'Quick Start',
                 'btns': [
-                    {'model': NetDevice},
-                    {'model': TaskMeta},
+                    {
+                        'model': 'inventory.netdevice',
+                        'title': 'Devices',
+                    },
+                    {
+                        'model': 'djcelery.taskstate',
+                        'title': 'Tasks',
+                    },
                 ],
             },
         ],
@@ -99,5 +111,5 @@ class TaskMetaAdmin(object):
     """Celery TaskMeta information class"""
     readonly_fields = ('task_id', 'status', 'result', 'traceback')
     search_fields = ('task_id',)
-    list_display = ('task_id', 'status', 'hidden')
+    list_display = ('task_id', 'status', 'date_done', 'hidden')
 xadmin.site.register(TaskMeta, TaskMetaAdmin)
