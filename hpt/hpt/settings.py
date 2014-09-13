@@ -61,6 +61,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'reversion',
     # Application stuff
+    'overextends',
     'rest_framework',
     'django_extensions',
     'ws4redis',
@@ -276,9 +277,12 @@ CELERY_ROUTES = {
 }
 """
 
+#############
 # Look & Feel
-#GRAPPELLI_ADMIN_TITLE = 'Hollowpoint'
-GRAPPELLI_ADMIN_TITLE = '<img src="/static/img/logo.png" alt="Hollowpoint" width="200">'
+#############
+XADMIN_SITE_NAME = 'Hollowpoint'
+XADMIN_SITE_TITLE = '<img src="/static/img/logo.png" alt="Hollowpoint" width="140">'
+XADMIN_SITE_FOOTER = 'Hollowpoint Technology Group, Inc.'
 
 ###########
 # Templates

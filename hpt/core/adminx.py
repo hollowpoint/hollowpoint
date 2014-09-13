@@ -4,8 +4,9 @@ from xadmin import layout
 from xadmin.plugins.inline import Inline
 from xadmin.plugins.batch import BatchChangeAction
 
-from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 from celery import states
+from django.utils.translation import ugettext_lazy as _
 from django.utils.html import escape
 from djcelery.admin_utils import action, display_field, fixedwidth
 from djcelery.admin import colored_state
@@ -57,8 +58,8 @@ class BaseSetting(object):
 xadmin.site.register(views.BaseAdminView, BaseSetting)
 
 class GlobalSetting(object):
-    site_title = 'Hollowpoint'
-    #site_title = escape('<img src="/static/img/logo.png" alt="Hollowpoint" width="200">')
+    site_title = settings.XADMIN_SITE_TITLE
+    site_footer = settings.XADMIN_SITE_FOOTER
     global_search_models = [NetDevice, TaskMeta]
     global_models_icon = {
         NetDevice: 'fa fa-laptop',

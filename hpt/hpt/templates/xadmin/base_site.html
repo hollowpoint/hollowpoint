@@ -1,0 +1,22 @@
+{% overextends 'xadmin/base_site.html' %}
+
+{# title #}
+{% block title %}{{ title }} | Hollowpoint{% endblock %}
+{# end title #}
+
+{# branding - Allow HTML #}
+{% block branding %}{{ site_title|safe }}{% endblock %}
+{# end branding #}
+
+{# footer #}
+{#
+{% block footer %}
+  <div id="footer">
+    <hr/>
+    <footer class="text-center">
+        <p>&copy; {% block site_footer %}Hollowpoint Technology Group, Inc.{% endblock %}</p>
+    </footer>
+  </div>
+{% endblock %}
+#}
+{# end footer #}
