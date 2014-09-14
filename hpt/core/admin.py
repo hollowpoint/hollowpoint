@@ -1,5 +1,5 @@
 from django.contrib import admin
-from djcelery.models import TaskMeta, TaskState
+from djcelery.models import TaskMeta, TaskState, TaskSetMeta
 
 # Register your models here.
 
@@ -9,6 +9,7 @@ class TaskMetaAdmin(admin.ModelAdmin):
     search_fields = ('task_id',)
     list_display = ('task_id', 'status', 'hidden')
 admin.site.register(TaskMeta, TaskMetaAdmin)
+admin.site.register(TaskSetMeta)
 
 from xadmin import models as xmodels
 admin.site.register(xmodels.Bookmark)

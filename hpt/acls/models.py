@@ -42,7 +42,7 @@ class AccessList(models.Model):
 
     def get_device_count(self):
         return self.devices.count()
-    get_device_count.short_desccription = 'Device Count'
+    get_device_count.short_description = 'Device Count'
 
     def get_devices(self):
         return '\n'.join(str(t) for t in self.devices.all())
