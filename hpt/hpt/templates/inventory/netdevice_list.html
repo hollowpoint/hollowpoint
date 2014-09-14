@@ -1,0 +1,10 @@
+{% overextends "xadmin/base_site.html" %}
+
+{% block content %}
+    <h2>Network Devices</h2>
+    <ul>
+        {% for device in object_list %}
+            <li>{{ device.node_name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

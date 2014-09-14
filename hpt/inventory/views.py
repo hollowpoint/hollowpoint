@@ -12,3 +12,15 @@ class NetDeviceViewSet(viewsets.ModelViewSet):
     queryset = NetDevice.objects.all()
     serializer_class = NetDeviceSerializer
     #model = NetDevice
+
+from django.views.generic import TemplateView, ListView, DetailView
+'''
+class NetDeviceView(TemplateView):
+    model = NetDevice
+    template_name = 'inventory/list.html'
+netdevice_view = NetDeviceView.as_view()
+'''
+class NetDeviceList(ListView):
+    model = NetDevice
+
+netdevice_list = NetDeviceList.as_view()

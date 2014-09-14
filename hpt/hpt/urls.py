@@ -37,7 +37,11 @@ urlpatterns = patterns('',
     url(r'^api/', include('api.urls')),
 
     # Django REST Framework
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api-auth/', include('rest_framework.urls',
+        namespace='rest_framework')),
+
+    # Inventory
+    url(r'^netdevices/$', 'inventory.views.netdevice_list'),
 )
 
 #from django.conf import settings
