@@ -43,7 +43,7 @@ class HollowpointLoader(BaseLoader):
 
         return self.transform_fields(data)
 
-    def transform_fields(self, data)
+    def transform_fields(self, data):
         """Transform the fields if they are present"""
         for d in data:
             for old, new in TRANSFORM_FIELDS.items():
