@@ -193,7 +193,7 @@ class NetDevice(models.Model):
         null=False, blank=True,
         help_text='TCP port used to connect to the console')
 
-    tasks = models.ManyToManyField(TaskState, related_name='devices')
+    tasks = models.ManyToManyField(TaskState, related_name='devices', blank=True)
 
     @property
     def nodeName(self):
@@ -216,6 +216,9 @@ class NetDevice(models.Model):
 
     def get_acls(self):
         #return '\n'.join(str(t) for t in self.acls.all())
+        if not self.id:
+            return None
+
         ret = ''
         for acl in self.acls.all():
             tpl = '<a href="/acls/accesslist/%s/update/">%s</a><br>\n'
@@ -224,22 +227,6 @@ class NetDevice(models.Model):
         return ret
     get_acls.allow_tags = True
     get_acls.short_description = 'Access-Lists'
-
-    def get_acl_dict(self):
-        if not hasattr(self, '_acl_dict'):
-            self._acl_dict = {}
-            try:
-                from trigger.acl.db import AclsDB
-            except ImportError:
-                pass
-            else:
-                aclsdb = AclsDB()
-                dev = _get_netdevices().get(self.nodeName)
-                if dev is not None:
-                    acl_dict = aclsdb.get_acl_dict(dev)
-                    self._acl_dict = acl_dict
-
-        return self._acl_dict
 
     @property
     def vendor(self):

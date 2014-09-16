@@ -1,6 +1,8 @@
 import xadmin
 from xadmin import views
 from xadmin import layout
+from xadmin.layout import (Main, TabHolder, Tab, Fieldset, Row, Col,
+                           AppendedText, Side)
 from xadmin.plugins.inline import Inline
 from xadmin.plugins.batch import BatchChangeAction
 
@@ -91,6 +93,7 @@ TASK_STATE_COLORS = {states.SUCCESS: 'green',
                      states.RETRY: 'orange',
                      'RECEIVED': 'blue'}
 
+import json
 class TaskStateAdmin(object):
     list_filter = ('state', 'name', 'tstamp', 'eta', 'worker')
     list_display = ('task_id', 'state', 'name', 'args', 'kwargs', 'eta', 'tstamp', 'worker')
@@ -109,7 +112,25 @@ xadmin.site.register(TaskState, TaskStateAdmin)
 
 class TaskMetaAdmin(object):
     """Celery TaskMeta information class"""
-    readonly_fields = ('task_id', 'status', 'result', 'traceback')
+    #readonly_fields = ('task_id', 'status', 'result', 'traceback')
+    readonly_fields = ('task_id', 'status', 'traceback', 'get_result')
+    exclude = ('result',)
     search_fields = ('task_id',)
     list_display = ('task_id', 'status', 'date_done', 'hidden')
+
+    def get_result(self, obj):
+        dumped = '<pre style="font-size: 11px">' + json.dumps(obj.result, indent=4) + '</pre>'
+        return dumped
+    get_result.allow_tags = True
+    get_result.short_description = 'result'
+
+    form_layout = (
+        Main(
+            'task_id',
+            'status',
+            'get_result',
+            'traceback'
+        ),
+    )
+
 xadmin.site.register(TaskMeta, TaskMetaAdmin)
