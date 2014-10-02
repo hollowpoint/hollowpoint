@@ -147,7 +147,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "docker" do |d|
      d.pull_images "jathanism/rabbitmq"
      d.pull_images "redis:2.8.12"
-     d.pull_images "postgres:9.3.4"
+     d.pull_images "postgres:9.3.5"
 
      # RabbitMQ
      #d.run "jathanism/rabbitmq",
@@ -156,7 +156,7 @@ Vagrant.configure("2") do |config|
      #d.run "redis:2.8.12",
      #   args: "--name redis -p 6379:6379"
      # Postgres
-     #d.run "postgres:9.3.4",
+     #d.run "postgres:9.3.5",
      #   args: "--name postgres -p 5432:5432"
   end
 end
