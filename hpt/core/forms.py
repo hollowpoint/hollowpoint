@@ -47,3 +47,43 @@ class ChangePasswordForm(forms.Form):
         r = requests.post(url, data=payload)
         rdata = r.json()
         return rdata['task-id']
+
+from inventory.models import NetDevice
+class ShowClockForm(forms.Form):
+    """
+    Form for fetching the time on devices.
+    """
+    devices = forms.ModelChoiceField(
+        label='Devices',
+        queryset=NetDevice.objects.all(),
+        #widget=forms.Textarea,
+        help_text=(
+            'Devices on which you would like to get the time. '
+            'One per line.'
+        ),
+    )
+
+    '''
+    def clean_devices(self):
+        """Convert devices into a list"""
+        devices = self.cleaned_data.get('devices')
+        try:
+            devices = devices.splitlines()
+        except (TypeError, AttributeError) as err:
+            raise FormValidationError(str(err))
+        else:
+            return devices
+    '''
+
+    def save(self, commit=True):
+        """
+        Given valid devices, password, execute the task
+        """
+        #print 'SUCCESS'
+        kwargs = self.cleaned_data
+        data = dict(kwargs=kwargs)
+        payload = json.dumps(data)
+        url = 'http://ops.lab.hollow.pt:5555/api/task/async-apply/core.tasks.show_clock'
+        r = requests.post(url, data=payload)
+        rdata = r.json()
+        return rdata['task-id']

@@ -1,146 +1,469 @@
+
 <!DOCTYPE html>
 <html lang="en-us" >
 <head>
-    <title>Site administration | Django site admin</title>
-    <meta charset="utf-8" />
-    <meta name="robots" content="NONE,NOARCHIVE" />
-    <!-- STYLESHEETS -->
-    
-        <link href="/static/grappelli/jquery/ui/css/custom-theme/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" type="text/css" media="screen" />
-        <link href="/static/grappelli/stylesheets/screen.css" rel="stylesheet" type="text/css" media="screen" />
-        
-            <link href="/static/grappelli/stylesheets/mueller/grid/output.css" rel="stylesheet" type="text/css" media="screen" />
-        
-    
-    <!-- EXTRASTYLES -->
-    
-    <!-- JAVASCRIPTS -->
-    
-    
-        <script type="text/javascript">window.__admin_media_prefix__ = "/static/grappelli/";</script>
-        <script type="text/javascript">window.__admin_utc_offset__ = "0";</script>
-        <script type="text/javascript" charset="utf-8">
-            // GLOBALS
-            var grappelli = {},
-                ADMIN_URL = "/admin/",
-                MODEL_URL_ARRAY = {"1": {"pk": 1, "app": "admin", "model": "logentry"}, "2": {"pk": 2, "app": "auth", "model": "permission"}, "3": {"pk": 3, "app": "auth", "model": "group"}, "4": {"pk": 4, "app": "auth", "model": "user"}, "5": {"pk": 5, "app": "contenttypes", "model": "contenttype"}, "6": {"pk": 6, "app": "sessions", "model": "session"}, "7": {"pk": 7, "app": "djcelery", "model": "taskmeta"}, "8": {"pk": 8, "app": "djcelery", "model": "tasksetmeta"}, "9": {"pk": 9, "app": "djcelery", "model": "intervalschedule"}, "10": {"pk": 10, "app": "djcelery", "model": "crontabschedule"}, "11": {"pk": 11, "app": "djcelery", "model": "periodictasks"}, "12": {"pk": 12, "app": "djcelery", "model": "periodictask"}, "13": {"pk": 13, "app": "djcelery", "model": "workerstate"}, "14": {"pk": 14, "app": "djcelery", "model": "taskstate"}},
-                DATE_FORMAT = "%Y-%m-%d",
-                TIME_FORMAT = "%H:%M:%S",
-                DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S";
-        </script>
-        <!-- jQuery, jQuery-UI -->
-        <script src="/static/grappelli/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
-        <script src="/static/grappelli/jquery/ui/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
-        
-            <!-- Grappelli Minified -->
-            <script src="/static/grappelli/js/grappelli.min.js" type="text/javascript"></script>
-        
-        <script type="text/javascript" charset="utf-8">
-            (function($) {
-                $(document).ready(function() {
-                    $("#grp-navigation .grp-collapse").grp_collapsible();
-                });
-            })(grp.jQuery);
-        </script>
-    
-
-    <!-- EXTRAHEAD -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+  
+  <meta name="description" content="">
+  <meta name="author" content="">
+  
+  <meta name="robots" content="NONE,NOARCHIVE" />
+  <title>Main Dashboard | Hollowpoint</title>
+  
+  <link href="/static/xadmin/vendor/bootstrap/css/bootstrap.css" type="text/css" media="screen" rel="stylesheet" />
+  
+  <link rel="stylesheet" type="text/css" id="site-theme" href="http://bootswatch.com/yeti/bootstrap.min.css" />
+  
+  <link href="/static/xadmin/vendor/font-awesome/css/font-awesome.css" type="text/css" media="screen" rel="stylesheet" />
+<link href="/static/xadmin/css/xadmin.main.css" type="text/css" media="screen" rel="stylesheet" />
+<link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet" />
+<link href="/static/xadmin/css/xadmin.responsive.css" type="text/css" media="screen" rel="stylesheet" />
+  <link href="/static/xadmin/css/xadmin.page.dashboard.css" type="text/css" media="screen" rel="stylesheet" />
+  
+  <script type="text/javascript" src="/static/xadmin/vendor/jquery/jquery.js"></script>
+  
+  <script type="text/javascript">
+    window.__admin_media_prefix__ = "/static/xadmin/";
+    window.__admin_path_prefix__ = "/";
+  </script>
+  <script type="text/javascript" src="/jsi18n/"></script>
+  
+  
 </head>
 <body class="dashboard">
-    <div id="grp-container">
+  
+  <!-- Header -->
+  <div id="top-nav" class="navbar navbar-xs navbar-inverse navbar-fixed-top">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"><img src="/static/img/logo.png" alt="Hollowpoint" width="140"></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        
 
-        <!-- HEADER -->
-        <header id="grp-header" class="">
-            
 
-                <!-- NAVIGATION -->
-                <div id="grp-navigation">
-                    <h1 id="grp-admin-title"><img src="/static/img/logo.png" alt="Hollowpoint" width="200"></h1>
-                    
-                        <ul id="grp-user-tools">
-                            <!-- Userlinks -->
-                            
-                                <!-- Username -->
-                                <li class="grp-user-options-container grp-collapse grp-closed ">
-                                    <a href="javascript://" class="user-options-handler grp-collapse-handler grp-switch-user-is-original">admin</a>
-                                    <ul class="grp-user-options">
-                                        <!-- Change Password -->
-                                        
-                                            <li><a href="/admin/password_change/" class="grp-change-password">Change password</a></li>
-                                        
-                                        <!-- Logout -->
-                                        <li><a href="/admin/logout/" class="grp-logout">Log out</a></li>
-                                        <!-- Switch -->
-                                        
-                                    </ul>
-                                </li>
-                                <!-- Documentation -->
-                                
-                                
-                            
-                        </ul>
-                    
-                    <!-- Nav-Global -->
-                    
-                </div>
-                
-                <!-- CONTEXT NAVIGATION -->
-                <div id="grp-context-navigation">
-                    <nav id="grp-breadcrumbs" class="">
-                        <header style="display:none"><h1>Breadcrumbs</h1></header>
-                        
-    <ul class="grp-horizontal-list">
-        <li>Home</li>
-    </ul>
-
-                    </nav>
-                    <nav id="grp-page-tools">
-                        <header style="display:none"><h1>Page Tools</h1></header>
-                        
-                    </nav>
-                </div>
-            
-        </header>
-
-        <!-- CONTENT -->
-        <article id="grp-content" class="content-grid">
-            
-            <!-- MESSAGES -->
-            
-                
-            
-
-            <!-- CONTENT TITLE -->
-            <header id="grp-content-title">
-                
-                
+<li class="dropdown g-add">
+  <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
+  <i class="fa fa-plus"></i> <span class="hide-sm">Add <i class="caret"></i></span></a>
+  <ul id="g-add-menu" class="dropdown-menu" role="menu">
     
-        <header><h1>Change Password</h1></header>
+        <li><a href="/acls/accesslist/add/"><i class="fa fa-plus"></i> Add Access-List</a></li>
     
+        <li><a href="/auth/user/add/"><i class="fa fa-plus"></i> Add User</a></li>
+    
+        <li><a href="/inventory/netdevice/add/"><i class="fa fa-plus"></i> Add Network Device</a></li>
+    
+        <li><a href="/xadmin/userwidget/add/"><i class="fa fa-plus"></i> Add User Widget</a></li>
+    
+        <li><a href="/auth/group/add/"><i class="fa fa-plus"></i> Add Group</a></li>
+    
+        <li><a href="/xadmin/bookmark/add/"><i class="fa fa-plus"></i> Add Bookmark</a></li>
+    
+        <li><a href="/djcelery/taskmeta/add/"><i class="fa fa-plus"></i> Add Task state</a></li>
+    
+        <li><a href="/xadmin/usersettings/add/"><i class="fa fa-plus"></i> Add User Setting</a></li>
+    
+        <li><a href="/djcelery/taskstate/add/"><i class="fa fa-plus"></i> Add Task</a></li>
+    
+        <li><a href="/auth/permission/add/"><i class="fa fa-plus"></i> Add Permission</a></li>
+    
+  </ul>
+</li>
 
-                
-            </header>
+<li class="dropdown g-theme">
+<a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
+<i class="fa fa-magic"></i> <span class="hide-sm">Themes <i class="caret"></i></span></a>
+<ul id="g-theme-menu" class="dropdown-menu" role="menu">
+  
+      <li><a data-css-href="/static/xadmin/css/themes/bootstrap-xadmin.css">Default</a></li>
+  
+      <li><a data-css-href="/static/xadmin/css/themes/bootstrap-theme.css">Bootstrap2</a></li>
+  
+      <li><a data-css-href="http://bootswatch.com/amelia/bootstrap.min.css">Amelia</a></li>
+  
+      <li><a data-css-href="http://bootswatch.com/cerulean/bootstrap.min.css">Cerulean</a></li>
+  
+      <li><a data-css-href="http://bootswatch.com/cosmo/bootstrap.min.css">Cosmo</a></li>
+  
+      <li><a data-css-href="http://bootswatch.com/cyborg/bootstrap.min.css">Cyborg</a></li>
+  
+      <li><a data-css-href="http://bootswatch.com/darkly/bootstrap.min.css">Darkly</a></li>
+  
+      <li><a data-css-href="http://bootswatch.com/flatly/bootstrap.min.css">Flatly</a></li>
+  
+      <li><a data-css-href="http://bootswatch.com/journal/bootstrap.min.css">Journal</a></li>
+  
+      <li><a data-css-href="http://bootswatch.com/lumen/bootstrap.min.css">Lumen</a></li>
+  
+      <li><a data-css-href="http://bootswatch.com/paper/bootstrap.min.css">Paper</a></li>
+  
+      <li><a data-css-href="http://bootswatch.com/readable/bootstrap.min.css">Readable</a></li>
+  
+      <li><a data-css-href="http://bootswatch.com/sandstone/bootstrap.min.css">Sandstone</a></li>
+  
+      <li><a data-css-href="http://bootswatch.com/simplex/bootstrap.min.css">Simplex</a></li>
+  
+      <li><a data-css-href="http://bootswatch.com/slate/bootstrap.min.css">Slate</a></li>
+  
+      <li><a data-css-href="http://bootswatch.com/spacelab/bootstrap.min.css">Spacelab</a></li>
+  
+      <li><a data-css-href="http://bootswatch.com/superhero/bootstrap.min.css">Superhero</a></li>
+  
+      <li><a data-css-href="http://bootswatch.com/united/bootstrap.min.css">United</a></li>
+  
+      <li class="active"><a data-css-href="http://bootswatch.com/yeti/bootstrap.min.css">Yeti</a></li>
+  
+</ul>
+</li>
+        
+          <li class="dropdown">
+            <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
+            <strong>Welcome, admin</strong> <span class="caret"></span></a>
+            <ul id="g-account-menu" class="dropdown-menu" role="menu">
+              <li><a href="/account/password/"><i class="fa fa-key"></i> Change Password</a></li>
+            </ul>
+          </li>
+        
+        <li><a href="/logout/"><i class="show-sm fa fa-sign-out"></i><span class="hide-sm">Log out</span></a></li>
+      </ul>
+      
 
-            <!-- CONTENT-CONTAINER -->
-            <div id="grp-content-container">
-                
-    <div class="g-d-c">
-        <div class="g-d-12 g-d-f">
-        {% block content %}{% endblock %}
+<form method="get" class="top-search-form navbar-form navbar-left" id="g-search">
+  <div class="input-group">
+    <input name="_q_" class="form-control" type="text">
+    <span class="input-group-btn">
+      <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-search"></i> Search <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+      
+          <li><a data-action="/inventory/netdevice/"><i class="fa fa-search"></i> Search Network Devices</a></li>
+      
+          <li><a data-action="/djcelery/taskmeta/"><i class="fa fa-search"></i> Search Task states</a></li>
+      
+      </ul>
+    </span>
+  </div>
+</form>
+
+
+    </div>
+  </div>
+
+  <div id="body-content" class="clearfix row">
+    <div id="left-side" class="col-sm-1 col-md-2">
+        
+        
+          
+
+
+
+  <ul class="well nav nav-pills nav-stacked nav-sitemenu hide-sm">
+    <li>
+      <a href="/"><i class="fa-fw fa fa-home"></i> Home</a>
+    </li>
+    
+      <li class="nav-header ">
+        
+        Acls
+        
+      </li>
+      
+      <li>
+        <a href="/acls/accesslist/">
+        <i class="fa-fw fa fa-circle-o"></i>
+        Access-Lists</span></a>
+      </li>
+      
+    
+      <li class="nav-header ">
+        
+        Auth
+        
+      </li>
+      
+      <li>
+        <a href="/auth/group/">
+        <i class="fa-fw fa fa-group"></i>
+        Groups</span></a>
+      </li>
+      
+      <li>
+        <a href="/auth/user/">
+        <i class="fa-fw fa fa-user"></i>
+        Users</span></a>
+      </li>
+      
+      <li>
+        <a href="/auth/permission/">
+        <i class="fa-fw fa fa-lock"></i>
+        Permissions</span></a>
+      </li>
+      
+    
+      <li class="nav-header ">
+        
+        Djcelery
+        
+      </li>
+      
+      <li>
+        <a href="/djcelery/taskstate/">
+        <i class="fa-fw fa fa-circle-o"></i>
+        Tasks</span></a>
+      </li>
+      
+      <li>
+        <a href="/djcelery/taskmeta/">
+        <i class="fa-fw fa fa-cloud"></i>
+        Task states</span></a>
+      </li>
+      
+    
+      <li class="nav-header ">
+        
+        Inventory
+        
+      </li>
+      
+      <li>
+        <a href="/inventory/netdevice/">
+        <i class="fa-fw fa fa-laptop"></i>
+        Network Devices</span></a>
+      </li>
+      
+    
+    
+  </ul>
+
+
+
+  <ul class="well nav nav-list nav-sitemenu show-sm">
+    <li class="app_menu">
+      <a href="/"><i class="icon fa-fw fa fa-home"></i></a><hr/>
+    </li>
+    
+      <li class="app_menu dropdown-submenu ">
+        <a href="#" class="section">
+          <i class="icon fa-fw fa fa-circle-o"></i>
+        </a><hr/>
+        <ul class="dropdown-menu">
+          
+          <li>
+            <a href="/acls/accesslist/">
+            <i class="fa-fw fa fa-circle-o"></i>
+            Access-Lists</span></a>
+          </li>
+          
+        </ul>
+      </li>
+    
+      <li class="app_menu dropdown-submenu ">
+        <a href="#" class="section">
+          <i class="icon fa-fw fa fa-user"></i>
+          
+        </a><hr/>
+        <ul class="dropdown-menu">
+          
+          <li>
+            <a href="/auth/group/">
+            <i class="fa-fw fa fa-group"></i>
+            Groups</span></a>
+          </li>
+          
+          <li>
+            <a href="/auth/user/">
+            <i class="fa-fw fa fa-user"></i>
+            Users</span></a>
+          </li>
+          
+          <li>
+            <a href="/auth/permission/">
+            <i class="fa-fw fa fa-lock"></i>
+            Permissions</span></a>
+          </li>
+          
+        </ul>
+      </li>
+    
+      <li class="app_menu dropdown-submenu ">
+        <a href="#" class="section">
+          <i class="icon fa-fw fa fa-cloud"></i>
+          
+        </a><hr/>
+        <ul class="dropdown-menu">
+          
+          <li>
+            <a href="/djcelery/taskstate/">
+            <i class="fa-fw fa fa-circle-o"></i>
+            Tasks</span></a>
+          </li>
+          
+          <li>
+            <a href="/djcelery/taskmeta/">
+            <i class="fa-fw fa fa-cloud"></i>
+            Task states</span></a>
+          </li>
+          
+        </ul>
+      </li>
+    
+      <li class="app_menu dropdown-submenu ">
+        <a href="#" class="section">
+          <i class="icon fa-fw fa fa-laptop"></i>
+          
+        </a><hr/>
+        <ul class="dropdown-menu">
+          
+          <li>
+            <a href="/inventory/netdevice/">
+            <i class="fa-fw fa fa-laptop"></i>
+            Network Devices</span></a>
+          </li>
+          
+        </ul>
+      </li>
+    
+    
+  </ul>
+
+
+        
+      
+      
+    </div>
+
+    <div id="content-block" class="col-sm-11 col-md-10">
+      
+
+      
+      <div class="navbar content-navbar navbar-default navbar-xs" data-toggle="breakpoint"
+        data-class-xs="navbar content-navbar navbar-inverse navbar-xs"
+        data-class-sm="navbar content-navbar navbar-default navbar-xs">
+        <div class="navbar-header">
+          
+          
+<button class="navbar-toggle pull-left" data-toggle="class" data-target="#body-content" data-class-name="show_menu">
+  <i class="fa fa-list"></i>
+</button>
+
+  <a title="Add Widget" href="/xadmin/userwidget/add/?user=1&amp;page_id=home&amp;_redirect=/" class="navbar-toggle pull-right">
+    <i class="fa fa-plus"></i></a>
+
+
+
+          <a class="navbar-brand" data-toggle="collapse" data-target="#top-nav .navbar-collapse">
             
+  <i class="fa fa-dashboard"></i> Main Dashboard
+
+          </a>
         </div>
-        
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            
+          </ul>
+          
+          
+          <div class="navbar-btn navbar-right hide-xs">
+            
+            
+
+  <a title="Add Widget" href="/xadmin/userwidget/add/?user=1&amp;page_id=home&amp;_redirect=/" class="btn btn-primary">
+    <i class="fa fa-plus"></i> <span>Add Widget</span></a>
+
+
+          </div>
+        </div>
+      </div>
+      
+
+      
+      
+      
+
+      
+<div class="dashboard row">
+  
+  <div class="col-sm-12 column">
+    
+      <div class="panel panel-default widget html" id="1">
+  <div class="panel-heading"><i class='icon fa fa-chevron-up chevron'></i><h3 class="panel-title">
+  
+    <i class='icon fa fa-wrench pull-right' data-toggle="modal" data-target="#1-opts-form"></i>
+  
+  
+    <i class='fa fa-file-o'></i>
+    {% block page_title %}{% endblock %}
+  
+</h3></div>
+  <div class="panel-body " >
+        {% block content %}{% endblock %}
+  </div>
+  
+<div class="modal fade widget_options" tabindex="-1" role="dialog" id="1-opts-form">
+  <div class="modal-content">
+  <form method="post" class="box-form form-horizontal short_label widget-form exform">
+  <input type='hidden' name='csrfmiddlewaretoken' value='DeM6DPFJAnSknYkdz9fdfBTGbgXrQ81z' />
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">Widget Options</h4>
+  </div>
+  <div class="modal-body">
+    
+      
+
+<input type='hidden' name='csrfmiddlewaretoken' value='DeM6DPFJAnSknYkdz9fdfBTGbgXrQ81z' /> <input id="id_id" name="id" type="hidden" value="1" /> <div id="div_id_title" class="form-group"><label for="id_title" class="control-label ">
+                Widget Title
+            </label><div class="controls "><input class="text-field admintextinputwidget form-control" id="id_title" name="title" type="text" value="Greetings" /> </div></div><div id="div_id_content" class="form-group"><label for="id_content" class="control-label ">
+                Html Content
+            </label><div class="controls "><textarea class="textarea-field admintextareawidget form-control" cols="40" id="id_content" name="content" rows="10">
+&lt;h3&gt;Welcome to Hollowpoint!&lt;/h3&gt;
+                    &lt;p&gt;Join us on IRC at &lt;a
+                    href=&quot;irc://irc.freenode.net:6667/hollowpoint&quot;&gt;#hollowpoint&lt;/b&gt;
+                    on Freenode.&lt;/p&gt;</textarea></div></div>
+
+    
+    <input type="hidden" name="_delete"/>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger pull-left btn-remove">Remove</button>
+    <button class="btn btn-default" data-dismiss="modal">Close</button>
+    <input class="btn btn-primary" type="submit" value="Save changes"/>
+  </div>
+  </form>
+  </div>
+  </div>
+
+</div>
+
+
+<input type='hidden' id='_portal_key' value='dashboard:home:pos' />
+
     </div>
+  </div>
 
-            </div>
+  
+  <div id="footer">
+    <hr/>
+    <footer class="text-center">
+        <p>&copy; Hollowpoint Technology Group, Inc.</p>
+    </footer>
+  </div>
 
-        </article>
-        
-        <!-- FOOTER -->
-        
 
-    </div>
+
+  <script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.mouse.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.sortable.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.main.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.responsive.js"></script>
+  <script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.effect.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.themes.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.page.dashboard.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.portal.js"></script>
+  
+  
 </body>
 </html>
-
