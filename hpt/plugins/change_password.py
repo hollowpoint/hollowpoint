@@ -90,8 +90,9 @@ class ChangePassword(CommandoApplication):
         cmd = 'admin admin password %s'
         return [cmd]
 
+    ARISTA_ADMIN_USER = 'admin'
     def to_arista(self, device, commands=None, extra=None):
-        cmd = 'aaa root secret %s'
+        cmd = 'aaa {admin} secret 0 %s'.format(admin=ARISTA_ADMIN_USER)
         return [cmd]
     
     def to_aruba(self, device, commands=None, extra=None):
