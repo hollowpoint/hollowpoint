@@ -394,3 +394,12 @@ REST_FRAMEWORK = {
 #########
 TRIGGER_SETTINGS = '/home/jathan/.trigger/settings.py'
 os.environ['TRIGGER_SETTINGS'] = TRIGGER_SETTINGS
+
+################
+# Local settings
+################
+try:
+    from local_settings import *
+except ImportError as err:
+    print 'Could not load local_settings.py:', err
+    pass
