@@ -2,6 +2,7 @@
 # vi: set ft=ruby :
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+Vagrant.require_version ">= 1.6.0"
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
@@ -11,8 +12,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
   #config.vm.box = "chef/centos-6.5"
-  #config.vm.box = "chef/ubuntu-14.04"
-  config.vm.box = "yungsang/coreos"
+  #config.vm.box = "chef/ubuntu-12.04"
+  config.vm.box = "chef/ubuntu-14.04"
+  #config.vm.box = "yungsang/coreos"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -27,6 +29,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   config.vm.network "private_network", ip: "192.168.33.10"
+  #config.vm.network "private_network", ip: "192.168.56.10"
+  #config.vm.network "private_network", type: "dhcp"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -132,15 +136,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 end
 
 # Setup systemd
-$script = <<SCRIPT
-systemctl enable /etc/systemd/system/postgres.service
-systemctl enable /etc/systemd/system/redis.service
-systemctl enable /etc/systemd/system/rabbitmq.service
-SCRIPT
-
-Vagrant.configure("2") do |config|
-    config.vm.provision "shell", inline: $script, privileged: true
-end
+# This is for CoreOS only... 
+# $script = <<SCRIPT
+# systemctl enable /etc/systemd/system/postgres.service
+# systemctl enable /etc/systemd/system/redis.service
+# systemctl enable /etc/systemd/system/rabbitmq.service
+# SCRIPT
+# 
+# Vagrant.configure("2") do |config|
+#     config.vm.provision "shell", inline: $script, privileged: true
+# end
 
 # Provision Docker image(s)
 Vagrant.configure("2") do |config|

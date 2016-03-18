@@ -239,6 +239,8 @@ If you've already got the RPMs in a directory...
 Ubuntu
 ======
 
+These instructions assume Ubuntu 12.04 and need to be updated.
+
 System
 ------
 
@@ -250,7 +252,7 @@ RabbitMQ
 --------
 
 Install
-~~~~~~
+~~~~~~~
 
 ::
 
@@ -262,7 +264,7 @@ Install
     apt-get install -y rabbitmq-server
 
 Configure
-~~~~~~~~
+~~~~~~~~~
 
 Enable plugins::
 
@@ -291,7 +293,7 @@ Import keys::
     wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
 Install
-~~~~~~
+-------
 
 ::
 
@@ -347,11 +349,15 @@ PostgreSQL
 
 Start it up::
 
-    docker run -d --name postgres -p 5432:5432 postgres:9.3.4
+    docker run -d --name postgres -p 5432:5432 postgres:latest
 
 Connect to the database using ``psql``::
 
-    docker run -it --rm --link postgres:db postgres:9.3.4 sh -c 'exec psql -h "$DB_PORT_5432_TCP_ADDR" -p "$DB_PORT_5432_TCP_PORT" -U postgres'
+    docker run -it --rm --link postgres:db postgres:latest sh -c 'exec psql -h "$DB_PORT_5432_TCP_ADDR" -p "$DB_PORT_5432_TCP_PORT" -U postgres'
+
+Create the database from the ``postgres=#`` prompt::
+
+    create database hpt;
 
 If you're using ``DATABASE_URL``, set it like so::
 
@@ -370,4 +376,4 @@ Then you can tag an existing image with ``localhost:5000`` as the user::
 
 And then push it to the registry::
 
-    docker push localhost:5000/rabbitmq
+    docker push localhost:5000/rabbitmq  # But why would I do this?

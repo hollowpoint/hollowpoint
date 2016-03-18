@@ -105,7 +105,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'hpt',
         'USER': 'postgres',
-        'HOST': '',
+        'HOST': '192.168.33.10',
         'PORT': '',
     }
 }
@@ -149,7 +149,8 @@ STATICFILES_DIRS = (
 
 # Broker settings.
 #BROKER_URL = 'amqp://admin:admin@localhost:5672//'
-BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+#BROKER_URL = 'amqp://guest:guest@localhost:5672/'
+BROKER_URL = 'amqp://guest:guest@192.168.33.10:5672/'
 
 # Use SSL to connect to the broker. Off by default. This may not be supported by
 # all transports.
@@ -361,7 +362,8 @@ SESSION_COOKIE_NAME = 'hpt'
 CACHES = {
     'default': {
         'BACKEND': 'redis_cache.RedisCache',
-        'LOCATION': 'localhost:6379',
+        #'LOCATION': 'localhost:6379',
+        'LOCATION': '192.168.33.10:6379',
         'OPTIONS': {
             'DB': 2,
             'PARSER_CLASS': 'redis.connection.HiredisParser',

@@ -1,6 +1,12 @@
 from __future__ import absolute_import
+
+"""
+Base task objects for HPT workflows.
+"""
+
 from celery import current_task, shared_task, Task
 from celery.utils.log import get_task_logger
+import getpass
 import importlib
 import socket
 from trigger.conf import settings
@@ -8,32 +14,42 @@ import os
 import sys
 import xmlrpclib
 
+
 log = get_task_logger(__name__)
+
 
 @shared_task
 def add(x, y):
     return x + y
 
+
 @shared_task
 def mul(x, y):
     return x * y
+
 
 @shared_task
 def xsum(numbers):
     return sum(numbers)
 
+
 @shared_task
 def ping():
     return 'PONG'
 
-TRIGGER_HOST = os.getenv('TRIGGER_HOST')
+
+TRIGGER_HOST = os.getenv('TRIGGER_HOST', 'localhost')
+TRIGGER_PORT = int(os.getenv('TRIGGER_PORT', 9090))
 if TRIGGER_HOST is None:
     raise RuntimeError('You must define TRIGGER_HOST')
-#XMLRPC_SERVER = xmlrpclib.Server('https://%s:9000/' % TRIGGER_HOST)
-XMLRPC_SERVER = xmlrpclib.Server('http://%s:9000/' % TRIGGER_HOST)
+XMLRPC_SERVER = xmlrpclib.Server(
+    'https://%s:%s/' % (TRIGGER_HOST, TRIGGER_PORT)
+)
+#XMLRPC_SERVER = xmlrpclib.Server('http://%s:9090/' % TRIGGER_HOST)
 
 # To save typing for SessionTask tasks
 my = current_task
+
 
 class SessionTask(Task):
     """
@@ -60,20 +76,22 @@ class SessionTask(Task):
              'password': a.password,
              'realm': 'hpt'}
         """
+
         # Hard-coded creds
-        """
         creds = {
-            'username': 'admin',
-            #'password': '00bliss!',
-            'password': 'admin',
+            'username': 'jathan',
+            'password': 'mypassword',
             'realm': 'hpt',
         }
-        """
+
         # Creds from .tacacsrc
+        '''
         from trigger.tacacsrc import Tacacsrc
         t = Tacacsrc()
         mycreds = t.creds['hpt']
         creds = dict(mycreds._asdict())
+        '''
+
         return creds
 
         #xxx return self._get_session(session_key)
@@ -95,6 +113,7 @@ def load_plugin_tasks(force=False):
     all_plugins = set(settings.BUILTIN_PLUGINS + settings.COMMANDO_PLUGINS)
     for mod_name in all_plugins:
         _load_plugin_task(mod_name, force=force)
+
 
 def _load_plugin_task(mod_name, force=False):
     """Load a single task dynamically"""
@@ -132,6 +151,7 @@ def _load_plugin_task(mod_name, force=False):
         msg = 'Trigger XMLRPC service encountered an error: %s' % (err,)
         raise RuntimeError(msg)
 
+
 def run(method, *args, **kwargs):
     """Calls the ``method`` on the XMLRPC server."""
     log.warn('run> method: %r' % method)
@@ -152,6 +172,7 @@ def run(method, *args, **kwargs):
     result = job(args, kwargs)
     return result
 
+
 ##
 ## Built-in tasks. In the future all built-in tasks will be plugins!
 ## (In Soviet Russia, task plugs you!)
@@ -161,6 +182,7 @@ def execute_commands(devices, commands, force_cli=False, *args, **kwargs):
 #def execute_commands(devices, commands, api_key, force_cli=False, *args, **kwargs):
     return run(my.method_name, creds=my.creds, devices=devices, commands=commands, force_cli=force_cli, *args, **kwargs)
 
+
 """
 @shared_task
 def execute_commands(*args, **kwargs):
@@ -168,10 +190,12 @@ def execute_commands(*args, **kwargs):
     return result
 """
 
+
 @shared_task
 def trigger_add(x, y):
     result = XMLRPC_SERVER.add(x, y)
     return result
+
 
 # Load the pluggable tasks
 load_plugin_tasks()

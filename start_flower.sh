@@ -6,4 +6,5 @@
 #python hpt/manage.py celery flower --address=0.0.0.0 --broker-api="http://admin:admin@localhost:15672/api/" --persistent --basic_auth=admin:admin
 
 # No auth
-python hpt/manage.py celery flower --address=0.0.0.0 --broker-api="http://admin:admin@localhost:15672/api/" --persistent
+# python hpt/manage.py celery flower --address=0.0.0.0 --broker-api="http://admin:admin@localhost:15672/api/" --persistent
+python hpt/manage.py celery flower --address=0.0.0.0 --broker-api="http://guest:guest@192.168.33.10:15672/api/" --persistent
