@@ -9,4 +9,4 @@
 # python hpt/manage.py celery flower --address=0.0.0.0 --broker-api="http://admin:admin@localhost:15672/api/" --persistent
 # python hpt/manage.py celery flower --address=0.0.0.0 --broker-api="http://guest:guest@192.168.33.10:15672/api/" --persistent
 # python hpt/manage.py celery flower --address=0.0.0.0 --persistent
-python hpt/manage.py celery flower --address=0.0.0.0
+python hpt/manage.py celery flower --address=0.0.0.0 --log-to-stderr --logging=debug

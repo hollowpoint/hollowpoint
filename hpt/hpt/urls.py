@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 
-import xadmin
-xadmin.autodiscover()
+# import xadmin
+# xadmin.autodiscover()
 
 #from xadmin.plugins import xversion
 #xversion.register_models()
@@ -25,7 +25,8 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     # Xadmin
-    url(r'^', include(xadmin.site.urls)),
+    # url(r'^', include(xadmin.site.urls)),
+    url(r'^', include(admin.site.urls)),
 
     # Change password
     url(r'^change_password/', 'core.views.change_password'),

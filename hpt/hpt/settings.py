@@ -36,8 +36,6 @@ SECRET_KEY = 'q&u@06$33br&__fo4ia=dg#&)vl0u*s(&md7$1&qez*xh48m*r'
 DEBUG = True
 #DEBUG = False
 
-TEMPLATE_DEBUG = True
-
 ALLOWED_HOSTS = ['*']
 
 
@@ -47,30 +45,27 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = (
     # Django core
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.admin',
 
     # Debug Toolbar
     #'debug_toolbar',
 
     # Server stuff
-    'xadmin',
-    'south',
-    'crispy_forms',
-    'reversion',
+    # 'xadmin',
+    # 'south',
+    # 'crispy_forms',
+    # 'reversion',
 
     # Application stuff
     'overextends',
     'rest_framework',
     'django_extensions',
-    'ws4redis',
-    'djangular',
     'djcelery',
-    'djsupervisor',
 
     # Plugins
     'core',
@@ -80,7 +75,9 @@ INSTALLED_APPS = (
 
 # Note for caching to work the explicit ordering of the CacheMiddleware must be
 # maintained.
-MIDDLEWARE_CLASSES = (
+# TODO(jathan): Revisit this to turn caching middleware back on.
+"""
+MIDDLEWARE_CLASSES = [
     'django.middleware.cache.UpdateCacheMiddleware', # This must be first!
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -89,7 +86,20 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware', # This must be last!
-)
+]
+"""
+MIDDLEWARE_CLASSES = [
+    'django.middleware.cache.UpdateCacheMiddleware', # This must be first!
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware', # This must be last!
+]
 
 ROOT_URLCONF = 'hpt.urls'
 
@@ -297,54 +307,28 @@ XADMIN_SITE_FOOTER = 'Hollowpoint Technology Group, Inc.'
 ###########
 # Templates
 ###########
-# Custom context processors to add template variables
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
-TEMPLATE_CONTEXT_PROCESSORS = TCP + (
-    'django.core.context_processors.request',
-    'ws4redis.context_processors.default',
-)
 
-# http://stackoverflow.com/a/15411829/194311
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    os.path.join(SETTINGS_ROOT, "templates").replace('\\', '/'),
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            os.path.join(SETTINGS_ROOT, "templates").replace('\\', '/'),
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 # Logging
 from django.conf.global_settings import LOGGING
 LOGGING['version'] = 1
-
-#####################
-# Websocket for Redis
-#####################
-# Specify the URL that distinguishes websocket connections from normal requests
-WEBSOCKET_URL = '/ws/'
-
-# If the Redis datastore uses connection settings other than the defaults, use
-# this dictionary to override these values.
-WS4REDIS_CONNECTION = {
-    #'host': 'localhost',
-    #'port': 6379,
-    'db': 1,
-    #'password': None,
-}
-
-# This directive sets the number in seconds, each received message is persisted
-# by Redis, additionally of being published on the message queue.
-WS4REDIS_EXPIRE = 7200
-
-# Websocket for Redis can prefix each entry in the datastore with a string. By
-# default, this is empty. If the same Redis connection is used to store other
-# kinds of data, in order to avoid name clashes you're encouraged to prefix
-# these entries with a unique string.
-WS4REDIS_PREFIX = 'ws'
-
-# This setting is required to override the Django's main loop, when running in
-# development mode, such as ./manage runserver. This setting is ignored in
-# production environments.
-WSGI_APPLICATION = 'ws4redis.django_runserver.application'
 
 ##########
 # Sessions

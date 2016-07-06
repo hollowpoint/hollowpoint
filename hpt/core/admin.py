@@ -11,7 +11,9 @@ class TaskMetaAdmin(admin.ModelAdmin):
 admin.site.register(TaskMeta, TaskMetaAdmin)
 admin.site.register(TaskSetMeta)
 
+"""
 from xadmin import models as xmodels
 admin.site.register(xmodels.Bookmark)
 admin.site.register(xmodels.UserSettings)
 admin.site.register(xmodels.UserWidget)
+"""

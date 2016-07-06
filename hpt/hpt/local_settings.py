@@ -9,3 +9,14 @@ os.environ['TRIGGER_SETTINGS'] = '/home/jathan/.trigger/settings.py'
 # Used in hpt/supervisord.conf. Not currently in use.
 # SERVER_IP = '192.168.33.10'
 SERVER_IP = 'localhost'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'hpt.sqlite3',
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': 'nsot',
+        # 'USER': 'root',
+        # 'PASSWORD': '',
+    }
+}

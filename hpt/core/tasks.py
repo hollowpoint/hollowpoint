@@ -9,7 +9,6 @@ from celery.utils.log import get_task_logger
 import getpass
 import importlib
 import socket
-from trigger.conf import settings
 import os
 import sys
 import xmlrpclib
@@ -41,17 +40,17 @@ def ping():
     return 'PONG'
 
 
-"""
-This whole section needs to be moved to settings.
-"""
-TRIGGER_HOST = os.getenv('TRIGGER_HOST', 'localhost')
-TRIGGER_PORT = int(os.getenv('TRIGGER_PORT', 9090))
-if TRIGGER_HOST is None:
-    raise RuntimeError('You must define TRIGGER_HOST')
-XMLRPC_SERVER = xmlrpclib.Server(
-    'https://%s:%s/' % (TRIGGER_HOST, TRIGGER_PORT)
-)
-#XMLRPC_SERVER = xmlrpclib.Server('http://%s:9090/' % TRIGGER_HOST)
+def get_xmlrpc_server():
+    """Return a Trigger XMLRPC server client."""
+    TRIGGER_HOST = os.getenv('TRIGGER_HOST', 'localhost')
+    TRIGGER_PORT = int(os.getenv('TRIGGER_PORT', 9090))
+    if TRIGGER_HOST is None:
+        raise RuntimeError('You must define TRIGGER_HOST')
+    XMLRPC_SERVER = xmlrpclib.Server(
+        'https://%s:%s/' % (TRIGGER_HOST, TRIGGER_PORT)
+    )
+    # XMLRPC_SERVER = xmlrpclib.Server('http://%s:9090/' % TRIGGER_HOST)
+    return XMLRPC_SERVER
 
 
 class SessionTask(Task):
@@ -103,7 +102,10 @@ class SessionTask(Task):
 def load_plugin_tasks(force=False):
     """Load all task plugins listed in `~trigger.conf.settings`"""
     # Combine built-in and Commando plugins into a single set
-    all_plugins = set(settings.BUILTIN_PLUGINS + settings.COMMANDO_PLUGINS)
+    from trigger.conf import settings as trigger_settings
+    all_plugins = set(
+        trigger_settings.BUILTIN_PLUGINS + trigger_settings.COMMANDO_PLUGINS
+    )
     for mod_name in all_plugins:
         _load_plugin_task(mod_name, force=force)
 
@@ -141,8 +143,10 @@ def _load_plugin_task(mod_name, force=False):
             devices=devices, *args, **kwargs
         )
 
+    server = get_xmlrpc_server()
+
     try:
-        XMLRPC_SERVER.add_handler(mod_name, task_name, force)
+        server.add_handler(mod_name, task_name, force)
     except socket.error as err:
         msg = 'Trigger XMLRPC service encountered an error: %s' % (err,)
         raise RuntimeError(msg)
@@ -164,7 +168,8 @@ def run(method, *args, **kwargs):
     log.warn('run> kwargs: %r' % kwargs_)
 
     # Execute and return the result
-    job = getattr(XMLRPC_SERVER, method)
+    server = get_xmlrpc_server()
+    job = getattr(server, method)
     result = job(args, kwargs)
     return result
 
@@ -185,16 +190,18 @@ def execute_commands(devices, commands, force_cli=False, *args, **kwargs):
 """
 @shared_task
 def execute_commands(*args, **kwargs):
-    result = XMLRPC_SERVER.execute_commands(args, kwargs)
+    server = get_xmlrpc_server()
+    result = server.execute_commands(args, kwargs)
     return result
 """
 
 
 @shared_task
 def trigger_add(x, y):
-    result = XMLRPC_SERVER.add(x, y)
+    server = get_xmlrpc_server()
+    result = server.add(x, y)
     return result
 
 
 # Load the pluggable tasks
-load_plugin_tasks()
+# load_plugin_tasks()
