@@ -17,6 +17,9 @@ import xmlrpclib
 
 log = get_task_logger(__name__)
 
+# To save typing for SessionTask tasks
+my = current_task
+
 
 @shared_task
 def add(x, y):
@@ -38,6 +41,9 @@ def ping():
     return 'PONG'
 
 
+"""
+This whole section needs to be moved to settings.
+"""
 TRIGGER_HOST = os.getenv('TRIGGER_HOST', 'localhost')
 TRIGGER_PORT = int(os.getenv('TRIGGER_PORT', 9090))
 if TRIGGER_HOST is None:
@@ -46,9 +52,6 @@ XMLRPC_SERVER = xmlrpclib.Server(
     'https://%s:%s/' % (TRIGGER_HOST, TRIGGER_PORT)
 )
 #XMLRPC_SERVER = xmlrpclib.Server('http://%s:9090/' % TRIGGER_HOST)
-
-# To save typing for SessionTask tasks
-my = current_task
 
 
 class SessionTask(Task):
@@ -60,7 +63,7 @@ class SessionTask(Task):
 
         @shard_task(base=SessionTask)
         def do_stuff(api_key):
-            return my.creds
+            return current_task.creds
 
     Creds expects to find the ``api_key`` within the task's ``kwargs``.
     """
@@ -75,26 +78,16 @@ class SessionTask(Task):
         creds = {'username': a.user.username,
              'password': a.password,
              'realm': 'hpt'}
+
+        return self._get_session(session_key)
         """
 
-        # Hard-coded creds
-        creds = {
-            'username': 'jathan',
-            'password': 'mypassword',
-            'realm': 'hpt',
-        }
-
         # Creds from .tacacsrc
-        '''
-        from trigger.tacacsrc import Tacacsrc
-        t = Tacacsrc()
-        mycreds = t.creds['hpt']
+        from trigger import tacacsrc
+        mycreds = tacacsrc.validate_credentials()
         creds = dict(mycreds._asdict())
-        '''
 
         return creds
-
-        #xxx return self._get_session(session_key)
 
     @property
     def method_name(self):
@@ -142,8 +135,11 @@ def _load_plugin_task(mod_name, force=False):
     task_name = module.task_name
     @shared_task(base=SessionTask, name='core.tasks.' + task_name)
     def dummy(devices, *args, **kwargs):
-    #def dummy(devices, api_key, *args, **kwargs):
-        return run(my.method_name, creds=my.creds, devices=devices, *args, **kwargs)
+    # def dummy(devices, api_key, *args, **kwargs):
+        return run(
+            current_task.method_name, creds=current_task.creds,
+            devices=devices, *args, **kwargs
+        )
 
     try:
         XMLRPC_SERVER.add_handler(mod_name, task_name, force)
@@ -179,8 +175,11 @@ def run(method, *args, **kwargs):
 ##
 @shared_task(base=SessionTask)
 def execute_commands(devices, commands, force_cli=False, *args, **kwargs):
-#def execute_commands(devices, commands, api_key, force_cli=False, *args, **kwargs):
-    return run(my.method_name, creds=my.creds, devices=devices, commands=commands, force_cli=force_cli, *args, **kwargs)
+# def execute_commands(devices, commands, api_key, force_cli=False, *args, **kwargs):
+    return run(
+        current_task.method_name, creds=current_task.creds, devices=devices,
+        commands=commands, force_cli=force_cli, *args, **kwargs
+    )
 
 
 """

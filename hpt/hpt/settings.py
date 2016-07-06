@@ -100,12 +100,14 @@ WSGI_APPLICATION = 'hpt.wsgi.application'
 ##########
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
+# This should be overridden in local_settings.py
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'hpt',
         'USER': 'postgres',
-        'HOST': '192.168.33.10',
+        # 'HOST': '192.168.33.10',
+        'HOST': '127.0.0.1',
         'PORT': '',
     }
 }
@@ -150,7 +152,8 @@ STATICFILES_DIRS = (
 # Broker settings.
 #BROKER_URL = 'amqp://admin:admin@localhost:5672//'
 #BROKER_URL = 'amqp://guest:guest@localhost:5672/'
-BROKER_URL = 'amqp://guest:guest@192.168.33.10:5672/'
+# BROKER_URL = 'amqp://guest:guest@192.168.33.10:5672/'
+BROKER_URL = 'redis://localhost:6379/1'
 
 # Use SSL to connect to the broker. Off by default. This may not be supported by
 # all transports.
@@ -362,8 +365,8 @@ SESSION_COOKIE_NAME = 'hpt'
 CACHES = {
     'default': {
         'BACKEND': 'redis_cache.RedisCache',
-        #'LOCATION': 'localhost:6379',
-        'LOCATION': '192.168.33.10:6379',
+        'LOCATION': 'localhost:6379',
+        # 'LOCATION': '192.168.33.10:6379',
         'OPTIONS': {
             'DB': 2,
             'PARSER_CLASS': 'redis.connection.HiredisParser',
