@@ -6,10 +6,10 @@ class NetDeviceAdmin(admin.ModelAdmin):
     """Customizing the view of devices in the admin"""
     list_display = ('nodeName', 'manufacturer', 'deviceType', 'make', 'model')
     list_filter = ('manufacturer', 'deviceType', 'site')
-    search_fields = ('nodeName',)
+    search_fields = ('node_name',)
     fieldsets = (
         ('Basics', {
-            'fields': ('nodeName', 'nodePort'),
+            'fields': ('node_name', 'nodePort'),
         }),
         ('Hardware Info', {
             'fields': ('manufacturer', 'deviceType', 'make', 'model', 'serialNumber')
@@ -18,7 +18,7 @@ class NetDeviceAdmin(admin.ModelAdmin):
             'fields': (
                 'adminStatus', 'assetID', 'budgetCode', 'budgetName',
                 'enablePW', 'owningTeam', 'owner', 'onCallName',
-                'operationStatus', 'lastUpdate', 'lifecycleStatus',
+                'operationStatus', 'lifecycleStatus',
                 'projectName'),
         }),
         ('Location', {

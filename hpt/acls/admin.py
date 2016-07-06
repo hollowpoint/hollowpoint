@@ -2,29 +2,24 @@ from django.contrib import admin
 from . import models
 
 # Register your models here.
-'''
-class NetDeviceAdmin(admin.ModelAdmin):
+class AccessListAdmin(admin.ModelAdmin):
     """Customizing the view of devices in the admin"""
-    list_display = ('nodeName', 'manufacturer', 'deviceType', 'make', 'model')
-    list_filter = ('manufacturer', 'deviceType', 'site')
-    search_fields = ('nodeName',)
+    list_filter = ('filename', 'format')
+    list_display = ('filename', 'format', 'modified', 'get_device_count')
+    #list_editable = ('node_name', 'manufacturer', 'deviceType', 'make', 'model',
+    #    'adminStatus')
+    search_fields = ('filename',)
+    # style_fields = {'system': 'radio-inline'}
+    # grid_layouts = ('table', 'thumbnails')
+    readonly_fields = ('created', 'modified')
+
+    """
     fieldsets = (
         ('Basics', {
-            'fields': ('nodeName', 'nodePort'),
+            'fields': ('filename', 'format', 'created', 'modified'),
         }),
-        ('Hardware Info', {
-            'fields': ('manufacturer', 'deviceType', 'make', 'model', 'serialNumber')
-        }),
-        ('Administrivia', {
-            'fields': (
-                'adminStatus', 'assetID', 'budgetCode', 'budgetName',
-                'enablePW', 'owningTeam', 'owner', 'onCallName',
-                'operationStatus', 'lastUpdate', 'lifecycleStatus',
-                'projectName'),
-        }),
-        ('Location', {
-            'fields': ('site', 'room', 'coordinate'),
-        }),
+        ('Network Devices': { 'fields': ['devices'] }
+        ),
     )
-admin.site.register(models.NetDevice, NetDeviceAdmin)
-'''
+    """
+admin.site.register(models.AccessList, AccessListAdmin)
