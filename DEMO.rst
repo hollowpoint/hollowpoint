@@ -63,8 +63,9 @@ Terminal 2: Flower::
 
 Terminal 3: Django::
 
-    $ python hpt/manage.py syncdb  # When prompted create a superuser
     $ python hpt/manage.py migrate
+    $ python hpt/manage.py migrate --migrate-syncdb
+    $ python hpt/manage.py createsuperuser
     $ ./start_web.sh
 
 Terminal 4: Celerycam::
