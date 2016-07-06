@@ -64,7 +64,7 @@ Terminal 2: Flower::
 Terminal 3: Django::
 
     $ python hpt/manage.py migrate
-    $ python hpt/manage.py migrate --migrate-syncdb
+    $ python hpt/manage.py migrate --run-syncdb
     $ python hpt/manage.py createsuperuser
     $ ./start_web.sh
 
